@@ -1,34 +1,33 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { Button } from './@/components/ui/button'
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "./@/components/ui/menubar"
+import { Separator } from "./@/components/ui/separator"
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div class="w-[90%] m-[auto] mt-5 text-center">
+   <div class='w-full flex-row justify-between flex m-0'>
+    
+<Button>Login</Button>
+<Button>Teacher</Button>
+<Button>Student</Button>
+<Button>About</Button>
+   </div>
+   <Separator className="my-5 w-full"></Separator>
+
+<h1>KONTENTTT</h1>
+  </div>
   )
 }
 
