@@ -4,6 +4,11 @@ const port = 3000
 const  { Client } =require('pg')
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'http://127.0.0.1:5173',
+}));
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
