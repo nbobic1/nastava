@@ -6,6 +6,7 @@ import {
 } from "./@/components/ui/form"
 import { Separator } from "./@/components/ui/separator"
 import Question from './components/Question'
+import MakeQuestion from './components/screens/MakeQuestion'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -24,11 +25,11 @@ function App() {
 <h1 className='mb-5'>Pitanja</h1>
 <div class="text-left">
 <Question text='why are u dumb' type={'multipleChoice'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
- 
 <Question text='why are u dumb' type={'df'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
- 
 <Question text='why are u dumb' type={'oneCorrect'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
-</div>  </div>
+</div>
+<MakeQuestion></MakeQuestion>
+  </div>
   )
 }
 

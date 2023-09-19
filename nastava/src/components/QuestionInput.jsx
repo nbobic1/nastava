@@ -16,18 +16,26 @@ import
     CardHeader,
     CardTitle,
   } from "@/@/components/ui/card"
+  import { Button } from "../@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/@/components/ui/radio-group"
 import { Input } from "@/@/components/ui/input"
 
 import { useForm } from "react-hook-form"
-import { CheckboxWithText } from "./CheckboxWithText";
-import RadioButtonItem from "./RadioButtonItem";
-const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
+import { CheckboxWithTextInput } from "./CheckboxWithTextInput";
+import RadioButtonItemInput from "./RadioButtonItemInput";
+import { useState } from 'react'
+const QuestionInput = ({ text = '', type = 0, possibleAnswers = [] }) =>
 {
   const form = useForm()
+  const [answers, setAnswer] = useState([]);
   const onSubmit = () =>
   {
 
+  }
+  const addAnswer=()=>{
+    console.log('#','dafdaf',answers)
+    
+    setAnswer([...answers,''])
   }
   return (
 <Card className="mb-5 border-[#0F172A55]">
@@ -38,15 +46,16 @@ const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
           name="username"
           render={({ field }) => (
             <>
-            <FormLabel className="text-xl">{text}</FormLabel>
+          
+          <Input className="text-xl" placeholder="Your question..."  />
             {type === 'multipleChoice' ?
 
               <FormItem>
                 <RadioGroup defaultValue="option-one">
-                  {possibleAnswers.map(item =>
+                  {answers.map((item,index) =>
                   {
                     return (
-                      <CheckboxWithText text={item}></CheckboxWithText>
+                      <CheckboxWithTextInput index={index}  text={item}></CheckboxWithTextInput>
                     )
                   })}
                 </RadioGroup>
@@ -56,24 +65,20 @@ const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
 
                 <FormItem>
                   <RadioGroup defaultValue="option-one">
-                    {possibleAnswers.map(item =>
+                    {answers.map((item,index) =>
                     {
                       return (
-                        <RadioButtonItem item={item}></RadioButtonItem>
+                        <RadioButtonItemInput index={index} item={item}></RadioButtonItemInput>
                       )
                     })}
                   </RadioGroup>
                 </FormItem>
-
                 :
                 // basic input text
                 <>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input placeholder="Your answer..." {...field} />
                   </FormControl>
-                  <FormDescription>
-                    This is your public display name.
-                  </FormDescription>
                   <FormMessage />
                 </>
               )}
@@ -81,11 +86,11 @@ const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
           )}
         />
 
-        <button type="submit">Submit</button>
+        <Button onClick={addAnswer} >Add answer</Button>
       </form>
     </Form>
     </Card>
   );
 };
 
-export default Question;
+export default QuestionInput;
