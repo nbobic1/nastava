@@ -29,8 +29,22 @@ app.post('/login',async(req,res)=>{
 	} finally {
 	await client.end()
 	}
-	res.send(req.query.email)
 })
+
+app.post('/register',async(req,res)=>{
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+	await client.connect()
+	try {
+   await client.query(`INSERT INTO usertable(username,passwordhash,userRole) VALUES ('${req.body.username}','${req.body.passwordhash}','${req.body.userRole}')`);
+  }  catch (err) {
+	console.error(err);
+	} finally {
+	await client.end()
+	}
+  res.send('ehej')
+})
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
