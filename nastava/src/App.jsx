@@ -7,6 +7,7 @@ import {
 import { Separator } from "./@/components/ui/separator"
 import Question from './components/Question'
 import MakeQuestion from './components/screens/MakeQuestion'
+import MakeTest from './components/screens/MateTest'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -29,6 +30,7 @@ function App() {
 <Question text='why are u dumb' type={'oneCorrect'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
 </div>
 <MakeQuestion></MakeQuestion>
+<MakeTest></MakeTest>
   </div>
   )
 }
