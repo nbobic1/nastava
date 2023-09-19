@@ -7,7 +7,7 @@ import {
 import { Separator } from "./@/components/ui/separator"
 import Question from './components/Question'
 import MakeQuestion from './components/screens/MakeQuestion'
-import MakeTest from './components/screens/MateTest'
+import MakeTest from './components/screens/MakeTest'
 
 function App() {
   const [count, setCount] = useState(0)
