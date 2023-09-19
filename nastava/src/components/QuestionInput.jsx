@@ -24,8 +24,12 @@ import { useForm } from "react-hook-form"
 import { CheckboxWithTextInput } from "./CheckboxWithTextInput";
 import RadioButtonItemInput from "./RadioButtonItemInput";
 import { useState } from 'react'
+import { useAtom } from "jotai"
+import { teacherQuestions } from "../atoms"
 const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
 {
+    
+    const [questions,setQuestions]=useAtom(teacherQuestions)
   const form = useForm()
   const [answers, setAnswer] = useState([]);
   const onSubmit = () =>
@@ -35,37 +39,43 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
   const addAnswer=()=>{
     setAnswer([...answers,''])
   } 
-  const removeAnswer=()=>{
-    setAnswer(answers.filter(item=>item.id!==id))
+  const removeQuestion=()=>{
+    setQuestions(questions.filter(item=>item.id!==id))
   }
   return (
-<Card className="mb-5 border-[#0F172A55] flex-row">
+<Card className="mb-5 border-[#0F172A55] flex-row flex ">
     <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)}   className=" br border-black space-y-8  p-5 ">
+      <form onSubmit={form.handleSubmit(onSubmit)}   className=" br border-black space-y-8  p-5 w-[90%]">
         <FormField
           control={form.control}
-          name="username"
+          name="question"
           render={({ field }) => (
-            <>
-          
-          <Input className="text-xl" placeholder="Your question..." {...field} />
+          <Input className="text-xl" placeholder="Your question..." {...field} />)}/>
             {type === 'multipleChoice' ?
-
+           <FormField
+           control={form.control}
+           name="answer"
+           render={({ field }) => (
               <FormItem>
-                <RadioGroup defaultValue="option-one">
-                  {answers.map((item,index) =>
+               
+                 { answers.map((item,index) =>
                   {
                     return (
-                      <CheckboxWithTextInput field={field} key={index}  id={id} index={index}  text={item}></CheckboxWithTextInput>
+                      <CheckboxWithTextInput  field={field} form={form} key={index}  id={index} index={index}  text={item}></CheckboxWithTextInput>
                     )
                   })}
-                </RadioGroup>
-              </FormItem>
+              </FormItem>  
+           )}/>
               :
               (type === 'oneCorrect' ?
-
-                <FormItem>
-                  <RadioGroup defaultValue="option-one">
+             
+                <FormItem>  
+                     <FormField
+                control={form.control}
+                name="answer"
+                render={({ field }) => (
+                  <RadioGroup  onValueChange={field.onChange}
+                  defaultValue="option-one">
                     {answers.map((item,index) =>
                     {
                       return (
@@ -73,26 +83,30 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
                       )
                     })}
                   </RadioGroup>
-                </FormItem>
+                )}/>
+                </FormItem> 
                 :
                 // basic input text
-                <>
+                <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                    <>
                   <FormControl>
                     <Input placeholder="Your answer..." {...form} />
                   </FormControl>
                   <FormMessage />
-                </>
+                  </>
+                  )}
+                  />
               )}
-              </>
-          )}
-        />
+        
 
         <Button onClick={addAnswer} >Add answer</Button>
-        <Button type="submit">Add dsfd</Button>
       </form>
     </Form>
     
-    <Button onClick={removeAnswer} >X</Button>
+    <Button className="m-auto" variant="outline" onClick={removeQuestion} >X</Button>
     </Card>
   );
 };

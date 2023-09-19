@@ -6,16 +6,26 @@ import { teacherQuestions } from "../../atoms";
 
 const MakeQuestion =({})=>{
 const [questions, setQuestions] = useAtom(teacherQuestions)
+console.log('#','eee',questions)
+
+const largestId =questions.length>0?questions.reduce((maxObject, currentObject) => {
+    if (currentObject.id > maxObject.id) {
+      return currentObject;
+    } else {
+      return maxObject;
+    }
+  }).id:0;
+  console.log('iddd,',largestId)
 const addMultiChoiceQuestion=()=>{
-setQuestions([...questions,{type:'multipleChoice'}])
+setQuestions([...questions,{type:'multipleChoice',id:largestId+1}])
 }
 
 const addOneCorrectQuestion=()=>{
-setQuestions([...questions,{type:'oneCorrect'}]);
+setQuestions([...questions,{type:'oneCorrect',id:largestId+1}]);
 }
 
 const addQuestion=()=>{
-setQuestions([...questions,{type:'nes',}]);
+setQuestions([...questions,{type:'nes',id:largestId+1}]);
 }
 
 const submit=()=>{
@@ -26,10 +36,10 @@ return (
     <>
     {
         questions.map((item,index)=>
-        <QuestionInput key={index} index={index} type={item.type}></QuestionInput>
+        <QuestionInput key={index} id={item.id} index={index} type={item.type}></QuestionInput>
         )
     }
-<div className="flex-row justify-around flex">
+<div className="flex-row justify-around flex mb-5">
 <Button onClick={addMultiChoiceQuestion}>Add multiple choice question</Button>
 <Button onClick={addOneCorrectQuestion}>Add one correct question</Button>
 <Button onClick={addQuestion}>Add text question</Button>
