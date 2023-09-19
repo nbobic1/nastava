@@ -8,12 +8,23 @@ import { Separator } from "./@/components/ui/separator"
 import Question from './components/Question'
 import MakeQuestion from './components/screens/MakeQuestion'
 import MakeTest from './components/screens/MakeTest'
+import Login from './components/screens/Login'
+import Register from './components/screens/Register'
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
+    
     <div class="w-[90%] m-[auto] mt-5 text-center">
+      <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} /> 
+      </Routes>
+    </BrowserRouter>
    <div class='w-full flex-row justify-between flex m-0'>
     
 <Button>Login</Button>
