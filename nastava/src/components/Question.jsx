@@ -22,6 +22,7 @@ import { Input } from "@/@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { CheckboxWithText } from "./CheckboxWithText";
 import RadioButtonItem from "./RadioButtonItem";
+import { useAtom } from 'jotai'
 const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
 {
   const form = useForm()
@@ -43,10 +44,10 @@ const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
 
               <FormItem>
                 <RadioGroup defaultValue="option-one">
-                  {possibleAnswers.map(item =>
+                  {possibleAnswers.map((item,index) =>
                   {
                     return (
-                      <CheckboxWithText text={item}></CheckboxWithText>
+                      <CheckboxWithText key={index} text={item}></CheckboxWithText>
                     )
                   })}
                 </RadioGroup>
@@ -56,10 +57,10 @@ const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
 
                 <FormItem>
                   <RadioGroup defaultValue="option-one">
-                    {possibleAnswers.map(item =>
+                    {possibleAnswers.map((item,index) =>
                     {
                       return (
-                        <RadioButtonItem item={item}></RadioButtonItem>
+                        <RadioButtonItem key={index} item={item}></RadioButtonItem>
                       )
                     })}
                   </RadioGroup>
@@ -71,9 +72,6 @@ const Question = ({ text = '', type = 0, possibleAnswers = [] }) =>
                   <FormControl>
                     <Input placeholder="shadcn" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    This is your public display name.
-                  </FormDescription>
                   <FormMessage />
                 </>
               )}

@@ -23,7 +23,7 @@ function App() {
    <Separator className="my-5 w-full"></Separator>
 
 <h1 className='mb-5'>Pitanja</h1>
-<div class="text-left">
+<div className="text-left">
 <Question text='why are u dumb' type={'multipleChoice'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
 <Question text='why are u dumb' type={'df'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
 <Question text='why are u dumb' type={'oneCorrect'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>

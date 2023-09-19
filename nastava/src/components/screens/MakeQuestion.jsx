@@ -1,8 +1,11 @@
 import {Button} from "@/@/components/ui/button"
-import { useState } from 'react'
 import QuestionInput from "../QuestionInput";
+import { useAtom } from 'jotai'
+import { teacherQuestions } from "../../atoms";
+
+
 const MakeQuestion =({})=>{
-const [questions, setQuestions] = useState([]);
+const [questions, setQuestions] = useAtom(teacherQuestions)
 const addMultiChoiceQuestion=()=>{
 setQuestions([...questions,{type:'multipleChoice'}])
 }
@@ -12,14 +15,18 @@ setQuestions([...questions,{type:'oneCorrect'}]);
 }
 
 const addQuestion=()=>{
-setQuestions([...questions,{type:'nes'}]);
+setQuestions([...questions,{type:'nes',}]);
 }
 
+const submit=()=>{
+    console.log('questions')
+}
 
 return (
     <>
     {
-        questions.map(item =><QuestionInput type={item.type}></QuestionInput>
+        questions.map((item,index)=>
+        <QuestionInput key={index} index={index} type={item.type}></QuestionInput>
         )
     }
 <div className="flex-row justify-around flex">
@@ -27,6 +34,7 @@ return (
 <Button onClick={addOneCorrectQuestion}>Add one correct question</Button>
 <Button onClick={addQuestion}>Add text question</Button>
 </div>
+<Button onClick={submit}>Finish makeing test</Button>
 </>
 )
 };
