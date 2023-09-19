@@ -40,7 +40,7 @@ const Register = ({}) =>{
     return(
         <div className="flex-row justify-around flex mb-5">
              <Form {...form}>
-                <FormLabel>Login</FormLabel>
+                <FormLabel>Register</FormLabel>
                 <form className="space-y-8">
                     <FormField
                     control={form.control}
