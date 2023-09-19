@@ -2,15 +2,10 @@ import { useState } from 'react'
 import './App.css'
 import { Button } from './@/components/ui/button'
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "./@/components/ui/menubar"
+  Form
+} from "./@/components/ui/form"
 import { Separator } from "./@/components/ui/separator"
+import Question from './components/Question'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,8 +21,14 @@ function App() {
    </div>
    <Separator className="my-5 w-full"></Separator>
 
-<h1>KONTENTTT</h1>
-  </div>
+<h1 className='mb-5'>Pitanja</h1>
+<div class="text-left">
+<Question text='why are u dumb' type={'multipleChoice'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
+ 
+<Question text='why are u dumb' type={'df'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
+ 
+<Question text='why are u dumb' type={'oneCorrect'} possibleAnswers={['nestojkl','nes sdfs','sdfsdf']}></Question>
+</div>  </div>
   )
 }
 
