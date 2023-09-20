@@ -9,12 +9,18 @@ import {
     FormLabel,
     FormMessage,
 } from "@/@/components/ui/form"
-
+import { useState } from "react"
 import { Input } from "@/@/components/ui/input"
 import axios from 'axios'
+import { useAtom } from "jotai"
+import { isLogedinState } from "../../atoms"
+import Loading from "../Loading"
 const Login =({})=>{
+    const [isLogedin, setIsLogedin] = useAtom(isLogedinState);
+    const [open, setOpen] = useState(false);
     const form = useForm()
     const submit=()=>{
+        setOpen(true)
         axios.post('http://localhost:3000/login', form.getValues(),{
             headers: {
               'Access-Control-Allow-Origin':'*',
@@ -22,13 +28,17 @@ const Login =({})=>{
             }})
           .then(function (response) {
             console.log(response.data);
+            setIsLogedin(response.data)
+            setOpen(false)
           })
           .catch(function (error) {
             console.log(error);
+            setOpen(false)
           });
     }
     return(
         <div className="flex-row justify-around flex mb-5">
+            <Loading open={open}></Loading>
             <Form {...form}>
                 <FormLabel>Login</FormLabel>
                 <form className="space-y-8">
