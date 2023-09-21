@@ -61,11 +61,11 @@ const Register = ({}) =>{
     }
 const [open, setOpen] = useState(false);
     return(
-        <div className="flex-row justify-around flex mb-5">
+        <div className="mb-5">
              <Loading open={open}></Loading>
              <Form {...form}>
-                <FormLabel>Register</FormLabel>
-                <form className="space-y-8">
+                <FormLabel className="text-xl">Register</FormLabel>
+                <form className="space-y-8 mt-16 mx-auto max-w-[300px]">
                     <FormField
                     control={form.control}
                     name="username"
@@ -109,7 +109,7 @@ const [open, setOpen] = useState(false);
                     </DropdownMenu>
                 </form>
             </Form>
-                    <Button onClick={register}>Register</Button>
+                    <Button className="mt-16" onClick={register}>Register</Button>
         </div>
     )
 } 

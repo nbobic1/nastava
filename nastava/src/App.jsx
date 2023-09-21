@@ -15,6 +15,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
 import { useAtom } from 'jotai'
 import { isLogedinState } from './atoms'
+import ProtectedRoute from './components/ProtectedRoute'
 function App()
 {
   const [isLogedin, setIsLogedin] = useAtom(isLogedinState)
@@ -42,8 +43,8 @@ function App()
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/makeQuestion' element={<MakeQuestion />} />
-          <Route path='/makeTest' element={<MakeTest />} />
+          <Route path='/makeQuestion' element={<ProtectedRoute><MakeQuestion /></ProtectedRoute>} />
+          <Route path='/makeTest' element={<ProtectedRoute><MakeTest /></ProtectedRoute>} />
           <Route path='/test' element={<div className="text-left">
             <Question text='why are u dumb' type={'multipleChoice'} possibleAnswers={['nestojkl', 'nes sdfs', 'sdfsdf']}></Question>
             <Question text='why are u dumb' type={'df'} possibleAnswers={['nestojkl', 'nes sdfs', 'sdfsdf']}></Question>

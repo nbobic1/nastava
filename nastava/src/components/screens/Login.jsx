@@ -15,10 +15,12 @@ import axios from 'axios'
 import { useAtom } from "jotai"
 import { isLogedinState } from "../../atoms"
 import Loading from "../Loading"
+import { useNavigate } from "react-router-dom"
 const Login =({})=>{
     const [isLogedin, setIsLogedin] = useAtom(isLogedinState);
     const [open, setOpen] = useState(false);
     const form = useForm()
+    const navigate=useNavigate()
     const submit=()=>{
         setOpen(true)
         axios.post('http://localhost:3000/login', form.getValues(),{
@@ -30,6 +32,7 @@ const Login =({})=>{
             console.log(response.data);
             setIsLogedin(response.data)
             setOpen(false)
+            navigate('/makeTest')
           })
           .catch(function (error) {
             console.log(error);
@@ -37,11 +40,11 @@ const Login =({})=>{
           });
     }
     return(
-        <div className="flex-row justify-around flex mb-5">
+        <div className=" mb-5">
             <Loading open={open}></Loading>
             <Form {...form}>
-                <FormLabel>Login</FormLabel>
-                <form className="space-y-8">
+                <FormLabel className="text-xl">Login</FormLabel>
+                <form className="mx-auto space-y-8 mt-16 max-w-[300px]">
                     <FormField
                     control={form.control}
                     name="username"
@@ -76,7 +79,7 @@ const Login =({})=>{
                     />
                 </form>
             </Form>
-                    <Button onClick={submit}>Login</Button>
+                    <Button className="mt-16"  onClick={submit}>Login</Button>
         </div>
     )
 }

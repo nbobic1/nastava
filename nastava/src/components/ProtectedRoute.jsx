@@ -6,7 +6,7 @@ import { isLogedinState } from '../atoms';
 const ProtectedRoute = ({ children }) => {
 	//const token = localStorage.getItem('token');
     const [isLogedin,setIsLogedin]=useAtom(isLogedinState)
-	return isLogedin? children : <Navigate to='/login' />;
+	return (isLogedin? children : <Navigate to='/login' />);
 };
 
 export default ProtectedRoute;
