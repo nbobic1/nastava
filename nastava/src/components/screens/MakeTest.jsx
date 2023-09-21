@@ -5,20 +5,13 @@ import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/@/components/ui/calendar"
 import { cn } from "@/@/lib/utils"
-
+import { useState} from "react"
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/@/components/ui/popover"
- 
-
-const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
-    }),
-})
-
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/@/components/ui/accordion"
 import {Button} from "@/@/components/ui/button"
 import {
     Form,
@@ -29,17 +22,24 @@ import {
     FormLabel,
     FormMessage,
 } from "@/@/components/ui/form"
-
+import {Popover,PopoverContent,PopoverTrigger} from "@/@/components/ui/popover"
 import { Input } from "@/@/components/ui/input"
+import { Card} from "@/@/components/ui/card"
+import MakeQuestion from "./MakeQuestion"
 
   const MakeTest =({})=>{
     const [date, setDate] = React.useState('')
     const form = useForm()
-   
+    const [grupe, setGrupe] = useState([]);
+    const [nazivGrupe, setNazivGrupe] = useState('');
+    const dodajGrupu=()=>{
+      setGrupe((a)=>[...a,nazivGrupe])
+      setNazivGrupe('')
+    }
     return(
-        <div className="flex-row justify-around flex mb-5">
+        <div className="mb-5 ">
             <Form {...form}>
-      <form className="space-y-8">
+      <form className="space-y-8 mx-auto max-w-[300px]">
         <FormField
           control={form.control}
           name="nazivTesta"
@@ -110,9 +110,25 @@ import { Input } from "@/@/components/ui/input"
             />
           </PopoverContent>
         </Popover>
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
+    <Input placeholder="" className="mt-10" value={nazivGrupe} onChange={(e)=>{setNazivGrupe(e.target.value)}} />   
+        <Button onClick={dodajGrupu} className="my-5">Dodaj grupu</Button>
+    <Accordion type="single" collapsible className="w-full">
+       {
+       grupe.map(item=>
+        <AccordionItem value={item}>
+        <AccordionTrigger>{item}</AccordionTrigger>
+        <AccordionContent>
+          <Card className="p-5">
+          <MakeQuestion key={item}></MakeQuestion>
+        </Card>
+        </AccordionContent>
+      </AccordionItem>)
+    }
+    </Accordion>
+   
+        <Button className="mt-16">Submit</Button>
         </div>
     )
   }

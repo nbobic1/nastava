@@ -6,8 +6,6 @@ import { teacherQuestions } from "../../atoms";
 
 const MakeQuestion =({})=>{
 const [questions, setQuestions] = useAtom(teacherQuestions)
-console.log('#','eee',questions)
-
 const largestId =questions.length>0?questions.reduce((maxObject, currentObject) => {
     if (currentObject.id > maxObject.id) {
       return currentObject;
@@ -15,7 +13,7 @@ const largestId =questions.length>0?questions.reduce((maxObject, currentObject) 
       return maxObject;
     }
   }).id:0;
-  console.log('iddd,',largestId)
+
 const addMultiChoiceQuestion=()=>{
 setQuestions([...questions,{type:'multipleChoice',id:largestId+1}])
 }
@@ -44,7 +42,7 @@ return (
 <Button onClick={addOneCorrectQuestion}>Add one correct question</Button>
 <Button onClick={addQuestion}>Add text question</Button>
 </div>
-<Button onClick={submit}>Finish makeing test</Button>
+
 </>
 )
 };
