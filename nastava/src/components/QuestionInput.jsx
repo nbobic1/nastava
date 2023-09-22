@@ -46,9 +46,9 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
     setQuestions(questions.filter(item=>item.id!==id))
   }
   return (
-<Card className="mb-5 border-[#0F172A55] flex-row flex ">
+<Card className="mb-5 border-[#0F172A55] pb-5 ">
     <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)}   className=" br border-black space-y-8  p-5 w-[90%]">
+      <form onSubmit={form.handleSubmit(onSubmit)}   className=" br border-black space-y-8 w-full  p-5 ">
         <FormField
           control={form.control}
           name="question"
@@ -115,12 +115,11 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
               )}
         
 
-        <Button onClick={addAnswer} >Add answer</Button>
       </form>
     </Form>
-    
-    <Button className="m-auto" variant="outline" onClick={removeQuestion} >X</Button>
-    </Card>
+                  
+       {type!=='oneCorrect'&&type!=='multipleChoice'&& <Button onClick={addAnswer} >Add answer</Button>
+}</Card>
   );
 };
 

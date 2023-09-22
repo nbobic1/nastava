@@ -17,6 +17,7 @@ function App()
   const [isLogedin, setIsLogedin] = useAtom(isLogedinState)
   useEffect(()=>{
     var isl=localStorage.getItem('isLogedin')
+    console.log('isl',isl)
     if(isl==='true')
     {
       setIsLogedin(true)

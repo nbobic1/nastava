@@ -26,24 +26,7 @@ const largestId =questions.length>0?questions.reduce((maxObject, currentObject) 
     }
   }).id:0;
 
-const addMultiChoiceQuestion=()=>{
-setQuestions([...questions,{type:'multipleChoice',id:largestId+1}])
-}
-
-const addOneCorrectQuestion=()=>{
-setQuestions([...questions,{type:'oneCorrect',id:largestId+1}]);
-}
-
-const addQuestion=()=>{
-setQuestions([...questions,{type:'nes',id:largestId+1}]);
-}
-
-const submit=()=>{
-    console.log('questions')
-}
-
 const setGroupNameFunction = (item) =>{
-  console.log("Item mi ovdje izadje kod naziva: " + item);
   setGroupName(item);
 }
 const addQuestion1 =() =>{
@@ -64,7 +47,7 @@ axios.post('http://localhost:3000/makeGroup', {},
 const [nazivGrupe, setNazivGrupe] = useState('');
 const [grupe, setGrupe] = useState([]);
 const dodajGrupu=()=>{
-  setGrupe((a)=>[...a,nazivGrupe])
+  setGrupe((a)=>[...a,{title:nazivGrupe,questionType:'dasf'}])
   setNazivGrupe('')
 }
 return (
@@ -79,19 +62,25 @@ return (
       className="my-5">Dodaj grupu</Button>
       <Accordion type="single" collapsible className="w-full">
        {
-       grupe.map(item=>
+       grupe.map((item,index)=>
         
-        <AccordionItem  value={item}>
-        <AccordionTrigger>{item}</AccordionTrigger>
+        <AccordionItem  value={item.title}>
+        <AccordionTrigger>{item.title}</AccordionTrigger>
         <AccordionContent>
           <Card className="p-5">
             <>        
-              <Button onClick={ event => {addMultiChoiceQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add multiple choice question</Button>
-            <Button onClick={event => {addOneCorrectQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add one correct question</Button>
-            <Button onClick={event => {addQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add text question</Button>      
-  
-                <QuestionInput></QuestionInput>
-         
+              <Button onClick={()=>{
+                  grupe[index]={...grupe[index],questionType:'multipleChoice'}
+              }} style={{margin: '15px'}}>Add multiple choice question</Button>
+            <Button onClick={()=>{
+                  grupe[index]={...grupe[index],questionType:'oneCorrect'}
+              }} style={{margin: '15px'}}>Add one correct question</Button>
+            <Button onClick={
+              ()=>{
+                grupe[index]={...grupe[index],questionType:'sdfds'}
+            }
+            } style={{margin: '15px'}}>Add text question</Button>      
+                <QuestionInput type={item.questionType}></QuestionInput>
     <Button onClick={addQuestion1} style={{margin: '20px'}}>Dodaj pitanje</Button> 
      </>
           </Card>
