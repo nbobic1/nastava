@@ -6,6 +6,7 @@ import MakeQuestion from './components/screens/MakeQuestion'
 import MakeTest from './components/screens/MakeTest'
 import Login from './components/screens/Login'
 import Register from './components/screens/Register'
+import MakeGroup from './components/screens/MakeGroup'
 import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
 import { useAtom } from 'jotai'
 import { isLogedinState } from './atoms'
@@ -38,6 +39,7 @@ function App()
           <>
           <Link to="/makeQuestion"><Button>Make question</Button></Link>
           <Link to="/makeTest"><Button >Make test</Button> </Link>
+          <Link to="/makeGroup"><Button>Make a group</Button></Link>
            <Link to="/login"><Button onClick={() => { setIsLogedin(false); 
            localStorage.setItem("isLogedin", "false");
             axios.post('http://localhost:3000/logout',{ },{
@@ -60,6 +62,7 @@ function App()
           <Route path='/register' element={<Register />} />
           <Route path='/makeQuestion' element={<ProtectedRoute><MakeQuestion /></ProtectedRoute>} />
           <Route path='/makeTest' element={<ProtectedRoute><MakeTest /></ProtectedRoute>} />
+          <Route path='/makeGroup' element={<ProtectedRoute><MakeGroup /></ProtectedRoute>} />
           <Route path='/test' element={<div className="text-left">
             <Question text='why are u dumb' type={'multipleChoice'} possibleAnswers={['nestojkl', 'nes sdfs', 'sdfsdf']}></Question>
             <Question text='why are u dumb' type={'df'} possibleAnswers={['nestojkl', 'nes sdfs', 'sdfsdf']}></Question>

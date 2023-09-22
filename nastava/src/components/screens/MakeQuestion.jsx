@@ -31,7 +31,7 @@ const setGroupNameFunction = (item) =>{
 }
 const addQuestion1 =() =>{
   console.log('sealjem')
-axios.post('http://localhost:3000/makeGroup', {},
+/*axios.post('http://localhost:3000/makeGroup', {},
 {
   withCredentials: true,
     headers: {
@@ -42,7 +42,7 @@ axios.post('http://localhost:3000/makeGroup', {},
     })
     .catch(function (error) {
       console.log('neki error',error,JSON.stringify(error));
-    }); 
+    }); */
 }
 const [nazivGrupe, setNazivGrupe] = useState('');
 const [grupe, setGrupe] = useState([]);

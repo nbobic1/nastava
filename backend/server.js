@@ -64,9 +64,32 @@ app.post('/register',async(req,res)=>{
   res.send('ehej')
 })
 
+app.get('/getGroups', async(req, res) => {
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    const odgovor = await client.query(`SELECT * FROM grouptable`);
+    const data = odgovor.rows;
+    console.log("Odogovr je " + JSON.stringify(odgovor.rows))
+    res.send(data);
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+})
+
 app.post('/makeGroup', async(req, res) => {
   console.log(req.session.username,req.session.userRole)
- 
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    await client.query(`INSERT INTO grouptable(groupname) VALUES('${req.body.groupname}')`)
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
  res.send('nice')
  /*
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
