@@ -19,6 +19,7 @@ import
   import { Button } from "../@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/@/components/ui/radio-group"
 import { Input } from "@/@/components/ui/input"
+import axios from 'axios'
 
 import { useForm } from "react-hook-form"
 import { CheckboxWithTextInput } from "./CheckboxWithTextInput";
@@ -26,10 +27,11 @@ import RadioButtonItemInput from "./RadioButtonItemInput";
 import { useState } from 'react'
 import { useAtom } from "jotai"
 import { teacherQuestions } from "../atoms"
+import { groupName } from "../atoms"
 const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
 {
-    
-    const [questions,setQuestions]=useAtom(teacherQuestions)
+  const [groupname, setGroupName] = useAtom(groupName);
+  const [questions,setQuestions]=useAtom(teacherQuestions)
   const form = useForm()
   const [answers, setAnswer] = useState([]);
   const onSubmit = () =>
@@ -39,6 +41,23 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
   const addAnswer=()=>{
     setAnswer([...answers,''])
   } 
+  const addQuestion =() =>{
+    const jsonObject1 = {
+      groupname: groupname,
+    };
+    const mergedJson = { ...jsonObject1, ...form.getValues() };
+    axios.post('http://localhost:3000/makeGroup', mergedJson,{
+      headers: {
+        'Access-Control-Allow-Origin':'*',
+        'Content-Type': 'application/json',
+      }})
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
   const removeQuestion=()=>{
     setQuestions(questions.filter(item=>item.id!==id))
   }
@@ -51,6 +70,16 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
           name="question"
           render={({ field }) => (
           <Input className="text-xl" placeholder="Your question..." {...field} />)}/>
+          <FormField
+          control={form.control}
+          name="points"
+          render={({ field }) => (
+          <Input className="text-xl" placeholder="Unesite bodove za pitanje" {...field} />)}/>
+          <FormField
+          control={form.control}
+          name="negativepoints"
+          render={({ field }) => (
+          <Input className="text-xl" placeholder="Unesite negativne bodove za pitanje" {...field} />)}/>
             {type === 'multipleChoice' ?
            <FormField
            control={form.control}
@@ -103,6 +132,7 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
         
 
         <Button onClick={addAnswer} >Add answer</Button>
+        <Button onClick={addQuestion} style={{margin: '20px'}}>Dodaj pitanje</Button>
       </form>
     </Form>
     

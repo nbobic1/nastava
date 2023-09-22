@@ -113,7 +113,7 @@ import MakeQuestion from "./MakeQuestion"
       </form>
     </Form>
     <Input placeholder="" className="mt-10" value={nazivGrupe} onChange={(e)=>{setNazivGrupe(e.target.value)}} />   
-        <Button onClick={dodajGrupu} className="my-5">Dodaj grupu</Button>
+        <Button onClick={dodajGrupu} className="my-5">Izaberi grupu</Button>
     <Accordion type="single" collapsible className="w-full">
        {
        grupe.map(item=>
