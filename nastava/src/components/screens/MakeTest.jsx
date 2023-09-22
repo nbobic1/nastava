@@ -77,22 +77,6 @@ import MakeQuestion from "./MakeQuestion"
         />
         <FormField
           control={form.control}
-          name="brojGrupa"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Broj grupa testa</FormLabel>
-              <FormControl>
-                <Input placeholder="" {...field} />
-              </FormControl>
-              <FormDescription>
-                u ovo polje upiste broj grupa testa
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="trajanjeTesta"
           render={({ field }) => (
             <FormItem>
@@ -151,11 +135,8 @@ import MakeQuestion from "./MakeQuestion"
       </AccordionItem>)
     }
     </Accordion>
-   
-  
-   
-        <Button className="mt-16">Submit</Button>
-        </div>
+    <Button className="mt-16">Submit</Button>
+    </div>
     )
   }
 
