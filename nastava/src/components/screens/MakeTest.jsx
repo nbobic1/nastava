@@ -42,7 +42,6 @@ import MakeQuestion from "./MakeQuestion"
       if(!open) 
       {
         var username=localStorage.getItem('username')
-        console.log("username je ovdje " +username);
        axios.get(`http://localhost:3000/getGroups`,{ params: { username: username} }).then((response) => {
          setData(response.data);
        }).catch((error) => {
@@ -51,17 +50,11 @@ import MakeQuestion from "./MakeQuestion"
     }},[open])
 
     const [data, setData] = useState([]);
-    console.log("Data ovdje iznosi" + data);
-    const formatTooltip = (value) => `${value}%`;
     const [sliderChange, setSliderChange] = useState(0);
     const [date, setDate] = React.useState('')
     const form = useForm()
     const [grupe, setGrupe] = useState([]);
     const [nazivGrupe, setNazivGrupe] = useState('');
-    const dodajGrupu=()=>{
-      setGrupe((a)=>[...a,nazivGrupe])
-      setNazivGrupe('')
-    }
     return(
         <div className="mb-5 ">
             <Form {...form}>
