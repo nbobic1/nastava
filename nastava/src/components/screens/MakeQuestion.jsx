@@ -2,7 +2,6 @@ import {Button} from "@/@/components/ui/button"
 import QuestionInput from "../QuestionInput";
 import {useEffect, useState} from "react"
 import { Card} from "@/@/components/ui/card"
-import { Provider, atom } from 'jotai'
 import axios from "axios";
 import {
   Accordion,
@@ -28,31 +27,13 @@ return (
       <Accordion type="single" collapsible className="w-full">
        {
        grupe.map((item,index)=>
-{ var questionType="muldaf";
+{ 
+
 return (
-        <AccordionItem  value={item.groupname?? ' '}>
-        <AccordionTrigger>{item.groupname??' '}</AccordionTrigger>
-        <AccordionContent>
-          <Card className="p-5">
-            <>        
-              <Button variant={questionType==='multipleChoice'?'outline':'primary'} onClick={()=>{
-                 questionType='multipleChoice'}
-              } style={{margin: '15px'}}>Multiple choice question</Button>
-            <Button variant={questionType==='oneCorrect'?'outline':'primary'}   onClick={()=>{
-                questionType='oneCorrect'
-              }} style={{margin: '15px'}}>One correct question</Button>
-            <Button onClick={
-              ()=>{
-questionType='sdfds'
-            }
-            } style={{margin: '15px'}}>Text question</Button>      
-                <QuestionInput type={item.questionType}></QuestionInput>
-    <Button  style={{margin: '20px'}}>Dodaj pitanje</Button> 
-     </>
-          </Card>
-        </AccordionContent>
-      </AccordionItem>)})
-    }
+  <Item item={item}></Item>     
+   )
+    })
+  }
     </Accordion>
    
      
@@ -61,5 +42,39 @@ questionType='sdfds'
 
 )
 };
+const Item=({item})=>{
+  const [questionType,setQ]=useState("multipleChoice");
+  const var1=questionType==='multipleChoice'?'outline':'default'
+  const var2=questionType==='oneCorrect'?'outline':'default'
+  const var3=questionType==='text'?'outline':'default'
+return (
+  <>
+  <AccordionItem  value={item.groupname?? ' '}>
+        <AccordionTrigger>{item.groupname??' '}</AccordionTrigger>
+        <AccordionContent>
+          <Card className="p-5">
+            <>        
+            <div className="w-full justify-around  flex pb-5">
+               <Button variant={var1} onClick={()=>{
+                 setQ('multipleChoice')}
+              } >Multiple choice question</Button>
+            <Button variant={var2}   onClick={()=>{
+                setQ('oneCorrect')
+              }} >One correct question</Button>
+            <Button variant={var3} onClick={
+              ()=>{
+            setQ('text')
+            }
+            } >Text question</Button>     
+               </div>
+                          <QuestionInput type={questionType}></QuestionInput>
+     </>
+          </Card>
+        </AccordionContent>
+      </AccordionItem>
+</>
+);
+};
+
 
 export default MakeQuestion;

@@ -42,13 +42,11 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
     setAnswer([...answers,''])
   } 
  
-  const removeQuestion=()=>{
-    setQuestions(questions.filter(item=>item.id!==id))
-  }
+
   return (
-<Card className="mb-5 border-[#0F172A55] pb-5 ">
+<Card className="mb-5 border-[#0F172A55] pb-5">
     <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)}   className=" br border-black space-y-8 w-full  p-5 ">
+      <form onSubmit={form.handleSubmit(onSubmit)}   className=" br border-black space-y-8 w-full  p-5 pb-3 ">
         <FormField
           control={form.control}
           name="question"
@@ -58,12 +56,12 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
           control={form.control}
           name="points"
           render={({ field }) => (
-          <Input className="text-xl" placeholder="Unesite bodove za pitanje" {...field} />)}/>
+          <Input className="text-xl" type='number' placeholder="Unesite bodove za pitanje" {...field} />)}/>
           <FormField
           control={form.control}
           name="negativepoints"
           render={({ field }) => (
-          <Input className="text-xl" placeholder="Unesite negativne bodove za pitanje" {...field} />)}/>
+          <Input className="text-xl" type='number' placeholder="Unesite negativne bodove za pitanje" {...field} />)}/>
             {type === 'multipleChoice' ?
            <FormField
            control={form.control}
@@ -118,8 +116,14 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
       </form>
     </Form>
                   
-       {type!=='oneCorrect'&&type!=='multipleChoice'&& <Button onClick={addAnswer} >Add answer</Button>
-}</Card>
+       {(type==='oneCorrect'||type==='multipleChoice')&& <Button onClick={addAnswer} >Add answer</Button>
+}
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<Button onClick={onSubmit}>Dodaj pitanje</Button> 
+</Card>
   );
 };
 
