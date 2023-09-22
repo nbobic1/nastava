@@ -20,17 +20,7 @@ import Loading from "../Loading";
 const MakeGroup = ({}) => {
     const [open, setOpen] = useState(false);
     const [data, setData] = useState([]);
-    useEffect(() => {
-       if(!open) 
-       {
-         var username=localStorage.getItem('username')
-        axios.get(`http://localhost:3000/getGroups`,{ params: { username: username} }).then((response) => {
-          setData(response.data);
-        }).catch((error) => {
-            console.log("error je", error);
-        })
-    }
-    },[open]);
+  
 
 
     const [nazivGrupe, setNazivGrupe] = useState('');
