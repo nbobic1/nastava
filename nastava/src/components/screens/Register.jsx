@@ -30,7 +30,7 @@ import Loading from "../Loading";
 const Register = ({}) =>{
     const form = useForm()
     const navigate = useNavigate();
-    const [role, setRole] = useState('Izaberite svoju rolu');
+    const [role, setRole] = useState('Student');
 
     function promjeniProfesora() {
         setRole("Profesor");        
@@ -42,6 +42,7 @@ const Register = ({}) =>{
     const register=()=>{
         setOpen(true)
         axios.post('http://localhost:3000/register', {...form.getValues(),userRole:role},{
+            withCredentials: true,
             headers: {
               'Access-Control-Allow-Origin':'*',
               'Content-Type': 'application/json',
@@ -98,9 +99,10 @@ const [open, setOpen] = useState(false);
                         </FormItem>
                     )}
                     />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>{role}</DropdownMenuTrigger>
-                        <DropdownMenuContent>
+                    <div>Selected role: {role}</div>
+                    <DropdownMenu >
+                        <DropdownMenuTrigger><div className="p-2 border-[1px] rounded-[4px] border-black">Change your role</div></DropdownMenuTrigger>
+                       <DropdownMenuContent>
                             <DropdownMenuLabel>Rola</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={promjeniProfesora}>Profesor</DropdownMenuItem>

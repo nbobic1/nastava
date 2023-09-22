@@ -7,6 +7,7 @@ import { Input } from "@/@/components/ui/input"
 import { useState} from "react"
 import { Card} from "@/@/components/ui/card"
 import { Provider, atom } from 'jotai'
+import axios from "axios";
 import {
   Accordion,
   AccordionContent,
@@ -45,7 +46,21 @@ const setGroupNameFunction = (item) =>{
   console.log("Item mi ovdje izadje kod naziva: " + item);
   setGroupName(item);
 }
-
+const addQuestion1 =() =>{
+  console.log('sealjem')
+axios.post('http://localhost:3000/makeGroup', {},
+{
+  withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    }})
+    .then(function (response) {
+      console.log('neki restponse',response.data,JSON.stringify(response));
+    })
+    .catch(function (error) {
+      console.log('neki error',error,JSON.stringify(error));
+    }); 
+}
 const [nazivGrupe, setNazivGrupe] = useState('');
 const [grupe, setGrupe] = useState([]);
 const dodajGrupu=()=>{
@@ -70,16 +85,15 @@ return (
         <AccordionTrigger>{item}</AccordionTrigger>
         <AccordionContent>
           <Card className="p-5">
-            <>{
-              
-               questions.map((item,index)=>
-               <QuestionInput key={index} id={item.id} index={index} type={item.type}></QuestionInput>
-               )
-            }
-            <Button onClick={ event => {addMultiChoiceQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add multiple choice question</Button>
+            <>        
+              <Button onClick={ event => {addMultiChoiceQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add multiple choice question</Button>
             <Button onClick={event => {addOneCorrectQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add one correct question</Button>
-            <Button onClick={event => {addQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add text question</Button>
-            </>
+            <Button onClick={event => {addQuestion(), setGroupNameFunction(item)}} style={{margin: '15px'}}>Add text question</Button>      
+  
+                <QuestionInput></QuestionInput>
+         
+    <Button onClick={addQuestion1} style={{margin: '20px'}}>Dodaj pitanje</Button> 
+     </>
           </Card>
         </AccordionContent>
       </AccordionItem>)

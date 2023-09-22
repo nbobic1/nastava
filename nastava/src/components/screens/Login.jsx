@@ -21,9 +21,12 @@ const Login =({})=>{
     const [open, setOpen] = useState(false);
     const form = useForm()
     const navigate=useNavigate()
+    const [isWrong, setIsWrong] = useState(false);
     const submit=()=>{
+        setIsWrong(false)
         setOpen(true)
         axios.post('http://localhost:3000/login', form.getValues(),{
+            withCredentials: true,
             headers: {
               'Access-Control-Allow-Origin':'*',
               'Content-Type': 'application/json',
@@ -33,10 +36,12 @@ const Login =({})=>{
             setIsLogedin(response.data)
             setOpen(false)
             navigate('/makeTest')
+            localStorage.setItem("isLogedin", "true");
           })
           .catch(function (error) {
             console.log(error);
             setOpen(false)
+            setIsWrong(true)
           });
     }
     return(
@@ -77,6 +82,9 @@ const Login =({})=>{
                         </FormItem>
                     )}
                     />
+                    {isWrong?
+                    <div className="bg-red-300">Wrong username or password</div>
+                    :null}
                 </form>
             </Form>
                     <Button className="mt-16"  onClick={submit}>Login</Button>

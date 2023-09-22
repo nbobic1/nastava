@@ -3,14 +3,26 @@ const app = express()
 const port = 3000
 const  { Client } =require('pg')
 var bodyParser = require('body-parser')
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 app.use(bodyParser.json())
 const cors = require('cors');
-
+var session = require('express-session')
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+}))
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://127.0.0.1:5173','http://localhost:5173'],
+  credentials:true
 }));
 app.get('/', (req, res) => {
   res.send('Hello World!')
+})
+app.post('/logout',async(req,res)=>{
+req.session.isLogedin=false
+res.send('true')
 })
 app.post('/login',async(req,res)=>{
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
@@ -22,6 +34,9 @@ app.post('/login',async(req,res)=>{
     {
       if(i.username===req.body.username&&i.passwordhash===req.body.passwordhash)
       {
+        req.session.username=req.body.username
+        req.session.userRole='dsf'
+        console.log('zapisaooo')
         res.send('true')
         temp=false;
         break;
@@ -50,6 +65,10 @@ app.post('/register',async(req,res)=>{
 })
 
 app.post('/makeGroup', async(req, res) => {
+  console.log(req.session.username,req.session.userRole)
+ 
+ res.send('nice')
+ /*
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
   try{
@@ -59,6 +78,7 @@ app.post('/makeGroup', async(req, res) => {
   } finally{
     await client.end()
   }
+  */
 })
 
 

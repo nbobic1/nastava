@@ -1,25 +1,28 @@
-import { useState } from 'react'
 import './App.css'
 import { Button } from './@/components/ui/button'
-import
-  {
-    Form
-  } from "./@/components/ui/form"
 import { Separator } from "./@/components/ui/separator"
 import Question from './components/Question'
 import MakeQuestion from './components/screens/MakeQuestion'
 import MakeTest from './components/screens/MakeTest'
 import Login from './components/screens/Login'
 import Register from './components/screens/Register'
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
 import { useAtom } from 'jotai'
 import { isLogedinState } from './atoms'
 import ProtectedRoute from './components/ProtectedRoute'
+import axios from 'axios'
+import { useEffect } from 'react'
 function App()
 {
   const [isLogedin, setIsLogedin] = useAtom(isLogedinState)
-  console.log('isLg',isLogedin)
+  useEffect(()=>{
+    var isl=localStorage.getItem('isLogedin')
+    if(isl==='true')
+    {
+      setIsLogedin(true)
+    }
+    else setIsLogedin(false)
+  },[]);
   return (
 
     <div className="w-[90%] m-[auto] mt-5 text-center">
@@ -34,7 +37,18 @@ function App()
           <>
           <Link to="/makeQuestion"><Button>Make question</Button></Link>
           <Link to="/makeTest"><Button >Make test</Button> </Link>
-           <Link to="/login"><Button onClick={() => { setIsLogedin(false); }}>Logout</Button></Link>
+           <Link to="/login"><Button onClick={() => { setIsLogedin(false); 
+           localStorage.setItem("isLogedin", "false");
+            axios.post('http://localhost:3000/logout',{ },{
+              withCredentials: true,
+            headers: {
+              'Access-Control-Allow-Origin':'*',
+              'Content-Type': 'application/json',
+            }})
+          .then(function (response) {
+          })
+          .catch(function (error) {
+          }); }}>Logout</Button></Link>
           </>
        }
         

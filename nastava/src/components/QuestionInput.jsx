@@ -41,23 +41,7 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
   const addAnswer=()=>{
     setAnswer([...answers,''])
   } 
-  const addQuestion =() =>{
-    const jsonObject1 = {
-      groupname: groupname,
-    };
-    const mergedJson = { ...jsonObject1, ...form.getValues() };
-    axios.post('http://localhost:3000/makeGroup', mergedJson,{
-      headers: {
-        'Access-Control-Allow-Origin':'*',
-        'Content-Type': 'application/json',
-      }})
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+ 
   const removeQuestion=()=>{
     setQuestions(questions.filter(item=>item.id!==id))
   }
@@ -132,7 +116,6 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
         
 
         <Button onClick={addAnswer} >Add answer</Button>
-        <Button onClick={addQuestion} style={{margin: '20px'}}>Dodaj pitanje</Button>
       </form>
     </Form>
     
