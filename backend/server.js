@@ -68,9 +68,8 @@ app.get('/getGroups', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
   try{
-    const odgovor = await client.query(`SELECT * FROM grouptable`);
+    const odgovor = await client.query(`SELECT * FROM grouptable WHERE username='${req.query.username}'`);
     const data = odgovor.rows;
-    console.log("Odogovr je " + JSON.stringify(odgovor.rows))
     res.send(data);
   } catch(err){
     console.log(err);
@@ -84,24 +83,14 @@ app.post('/makeGroup', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
   try{
-    await client.query(`INSERT INTO grouptable(groupname) VALUES('${req.body.groupname}')`)
+    await client.query(`INSERT INTO grouptable(groupname,username) VALUES('${req.body.groupname}','${req.body.username}')`)
   } catch(err){
     console.log(err);
   } finally{
     await client.end()
   }
  res.send('nice')
- /*
-  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
-  await client.connect()
-  try{
-    await client.query(`INSERT INTO grouptable(groupname, question, points, negativepoints, answer) VALUES('${req.body.groupname}','${req.body.question}','${req.body.points}','${req.body.negativepoints}','${req.body.answer}')`)
-  } catch(err){
-    console.log(err);
-  } finally{
-    await client.end()
-  }
-  */
+
 })
 
 

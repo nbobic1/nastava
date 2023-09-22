@@ -37,6 +37,7 @@ const Login =({})=>{
             setOpen(false)
             navigate('/makeTest')
             localStorage.setItem("isLogedin", "true");
+            localStorage.setItem('username',form.getValues().username)
           })
           .catch(function (error) {
             console.log(error);

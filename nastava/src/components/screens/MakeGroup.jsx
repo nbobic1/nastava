@@ -12,27 +12,33 @@ import {
     TableHeader,
     TableRow,
   } from "@/@/components/ui/table"
+import Loading from "../Loading";
 
 
 
 
 const MakeGroup = ({}) => {
+    const [open, setOpen] = useState(false);
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:3000/getGroups').then((response) => {
-            console.log("Data izlazi " + JSON.stringify(response.data))
-            setData(response.data);
+       if(!open) 
+       {
+         var username=localStorage.getItem('username')
+        axios.get(`http://localhost:3000/getGroups`,{ params: { username: username} }).then((response) => {
+          setData(response.data);
         }).catch((error) => {
             console.log("error je", error);
         })
-    },[]);
+    }
+    },[open]);
 
 
     const [nazivGrupe, setNazivGrupe] = useState('');
 
     const dodajGrupu = () => {
+        setOpen(true)
         console.log("ovdje mi ispisuje: " + nazivGrupe);
-        axios.post('http://localhost:3000/makeGroup', {groupname: nazivGrupe},
+        axios.post('http://localhost:3000/makeGroup', {groupname: nazivGrupe,username:localStorage.getItem('username')},
         {
         withCredentials: true,
             headers: {
@@ -40,14 +46,17 @@ const MakeGroup = ({}) => {
             'Content-Type': 'application/json',
             }})
             .then(function (response) {
+                setOpen(false)
             console.log('neki restponse',response.data,JSON.stringify(response));
             })
             .catch(function (error) {
+                setOpen(false)
             console.log('neki error',error,JSON.stringify(error));
         });
     }
     return(
         <div className="flex-row justify-around flex mb-5" style={{display: 'block'}}>
+            <Loading open={open}></Loading>
             <Input placeholder="" className="mt-10" value={nazivGrupe} onChange={(e)=>{setNazivGrupe(e.target.value)}}/>
             <Button onClick={dodajGrupu} className="my-5">Dodaj grupu</Button>
             <h1>Postojece grupe</h1>
