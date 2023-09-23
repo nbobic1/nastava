@@ -172,6 +172,29 @@ app.post('/addQuestions', async(req, res) => {
 
 })
 
+app.get('/getQuestion', async(req, res) => {
+  var query=`SELECT *
+  FROM questions WHERE group_id IN ( `
+for(i of req.body.ids)
+query+=`${i},`
+query=query.slice(0,-1)+`)  ORDER BY random()
+  LIMIT 10;`
+  console.log('qurei',query)
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    var odgovor=await client.query(query)
+    const data = odgovor.rows;
+    res.send(data);
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+  
+
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
