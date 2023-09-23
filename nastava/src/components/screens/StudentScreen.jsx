@@ -12,13 +12,14 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
 
+import { useAtom } from "jotai";
+import { singleTest } from "../../atoms";
 
 
 
 const StudentScreen = ({}) => {
 
     const navigate=useNavigate()
-    
     const getInTest = (id) => {
         axios.post('http://localhost:3000/startedTest', {username: localStorage.getItem('username'), startedTest: 1},
         {
@@ -36,7 +37,7 @@ const StudentScreen = ({}) => {
 
         navigate({
             pathname: `/singleTest/${id}`,
-            state: { postId: id }
+            state: { postId: id ,item:item}
         });
     }
 
@@ -54,7 +55,7 @@ const StudentScreen = ({}) => {
             <h1>Dostupni testovi za rad</h1>
             {
                 tests.map((test) => (
-                    <Card onClick = {() => getInTest(test.id)}>
+                    <Card onClick = {() => getInTest(test.id,test)}>
                         <CardHeader>
                             <CardTitle>Naziv testa: {test.title}</CardTitle>
                         </CardHeader>
