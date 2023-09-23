@@ -127,6 +127,17 @@ GROUP BY
   }
 })
 
+app.post('/startedTest', async(req, res) => {
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    await client.query(`INSERT INTO startedtest(username,startedtest) VALUES('${req.body.username}','${req.body.startedTest}')`)
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+})
 
 app.post('/makeGroup', async(req, res) => {
   

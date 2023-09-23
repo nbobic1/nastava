@@ -17,11 +17,9 @@ import { singleTest } from "../../atoms";
 
 
 const StudentScreen = ({}) => {
+
     const navigate=useNavigate()
-    const [item,setItem]=useAtom(singleTest)
-    const getInTest = (id,item) => {
-        console.log('item dfaf',item)
-       setItem(item) 
+    const getInTest = (id) => {
         navigate({
             pathname: `/singleTest/${id}`,
             state: { postId: id ,item:item}
@@ -33,7 +31,7 @@ const StudentScreen = ({}) => {
         axios.get(`http://localhost:3000/getTests`).then((response) => {
             setTests(response.data);
           }).catch((error) => {
-              console.log("error je", error);
+                console.log("error je", error);
           })
     },[])
 
