@@ -18,8 +18,11 @@ import { singleTest } from "../../atoms";
 
 const StudentScreen = ({}) => {
 
-    const navigate=useNavigate()
-    const getInTest = (id) => {
+    const navigate=useNavigate() 
+    const [item,setItem]=useAtom(singleTest)
+    const getInTest = (id,item) => {
+        console.log('item dfaf',item)
+       setItem(item) 
         navigate({
             pathname: `/singleTest/${id}`,
             state: { postId: id ,item:item}

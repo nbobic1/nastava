@@ -183,7 +183,7 @@ app.post('/addQuestions', async(req, res) => {
 
 })
 
-app.get('/getQuestion', async(req, res) => {
+app.post('/getQuestion', async(req, res) => {
   var query=`SELECT *
   FROM questions WHERE group_id = ${req.body.id} ORDER BY random()
   LIMIT ${req.body.num};`
