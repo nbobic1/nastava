@@ -64,26 +64,26 @@ app.post('/register',async(req,res)=>{
   res.send('ehej')
 })
 
-app.get('/getCountQuestion', async(req, res) => {
-  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
-  await client.connect()
-  try{
-    const odgovor = await client.query(`SELECT COUNT(id) FROM questions WHERE group_id='${req.query.group_id}'`);
-    const data = odgovor.rows;
-    res.send(data);
-  } catch(err){
-    console.log(err);
-  } finally{
-    await client.end()
-  }
-  
-})
+
+
 
 app.get('/getGroups', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
   try{
-    const odgovor = await client.query(`SELECT * FROM grouptable WHERE username='${req.query.username}'`);
+    const odgovor = await client.query(`SELECT
+    t1.*,
+    COUNT(t2.id) AS numQ
+FROM
+    grouptable t1
+LEFT JOIN
+    questions t2
+ON
+    t1.id = t2.group_id
+    WHERE t1.username='${req.query.username}'
+GROUP BY
+    t1.id; 
+    `);
     const data = odgovor.rows;
     res.send(data);
   } catch(err){
@@ -109,6 +109,19 @@ app.post('/makeGroup', async(req, res) => {
 
 })
 
+app.post('/makeTest', async(req, res) => {
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    await client.query(`INSERT INTO tests(username,answers,question,testdate,title,minutes) VALUES('${req.body.username}','${req.body.answers}','${req.body.question}','${req.body.date}','${req.body.nazivTesta}','${req.body.trajanjeTesta}')`)
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+ res.send('nice')
+
+})
 
 app.post('/addQuestions', async(req, res) => {
   console.log(req.session.username,req.session.userRole)
