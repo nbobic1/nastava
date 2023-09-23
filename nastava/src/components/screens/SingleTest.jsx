@@ -6,6 +6,8 @@ import Question from "../Question";
 import { useAtom } from "jotai";
 import { singleTest } from "../../atoms";
 
+import {Button} from "@/@/components/ui/button"
+
 
 
 const SingleTest = ({}) => {
@@ -37,11 +39,13 @@ const SingleTest = ({}) => {
     
 
     return(
-        <div>
+        <div className="flex-row justify-around flex mb-5" style={{display: 'block'}}>
          {  pitanja.map((item) => (
                     <Question text={item[0].question} type='oneCorrect' possibleAnswers={item[0].qtext[0]} />
                 ))
-         }</div>
+         }
+         <Button className="mt-16">Predaj test</Button>
+         </div>
     )
 }
 
