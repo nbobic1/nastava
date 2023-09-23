@@ -2,22 +2,15 @@ import
   {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
   } from "@/@/components/ui/form"
   import {
     Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
   } from "@/@/components/ui/card"
   import { Button } from "../@/components/ui/button"
-import { RadioGroup, RadioGroupItem } from "@/@/components/ui/radio-group"
+import { RadioGroup } from "@/@/components/ui/radio-group"
 import { Input } from "@/@/components/ui/input"
 import axios from 'axios'
 
@@ -25,18 +18,40 @@ import { useForm } from "react-hook-form"
 import { CheckboxWithTextInput } from "./CheckboxWithTextInput";
 import RadioButtonItemInput from "./RadioButtonItemInput";
 import { useState } from 'react'
-import { useAtom } from "jotai"
-import { teacherQuestions } from "../atoms"
-import { groupName } from "../atoms"
-const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
+const QuestionInput = ( { setOpen, type = 0, item}) =>
 {
-  const [groupname, setGroupName] = useAtom(groupName);
-  const [questions,setQuestions]=useAtom(teacherQuestions)
+  
   const form = useForm()
+  const {reset}=form
   const [answers, setAnswer] = useState([]);
   const onSubmit = () =>
   {
-    console.log('erer',form.getValues())
+var data=formateDate(form.getValues())
+    setOpen(true)
+    console.log('#data',data)
+    
+    axios.post('http://localhost:3000/addQuestions', {group_id: item.id,points:data.points,negativepoints:data.negativepoints,qtext:data.text,answers:type==='text'?data.textanswer:data.answer ,question:data.question},
+    {
+    withCredentials: true,
+        headers: {
+        'Access-Control-Allow-Origin':'*',
+        'Content-Type': 'application/json',
+        }})
+        .then(function (response) {
+            setOpen(false)
+         reset({
+          question:'',
+          textanswer:'',
+          points:0,
+          negativepoints:0,
+        
+         })
+        setAnswer([])
+        })
+        .catch(function (error) {
+            setOpen(false)
+        console.log('neki error',error,JSON.stringify(error));
+    });
   }
   const addAnswer=()=>{
     setAnswer([...answers,''])
@@ -51,17 +66,27 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
           control={form.control}
           name="question"
           render={({ field }) => (
-          <Input className="text-xl" placeholder="Your question..." {...field} />)}/>
+            <FormControl>
+          <Input className="text-xl" placeholder="Your question..." {...field} />
+          </FormControl>
+          )}/> 
           <FormField
           control={form.control}
           name="points"
           render={({ field }) => (
-          <Input className="text-xl" type='number' placeholder="Unesite bodove za pitanje" {...field} />)}/>
+            <FormControl> 
+                       <Input className="text-xl" type='number' placeholder="Unesite bodove za pitanje" {...field} />
+                      </FormControl>
+                       )}/>
+
           <FormField
           control={form.control}
           name="negativepoints"
           render={({ field }) => (
-          <Input className="text-xl" type='number' placeholder="Unesite negativne bodove za pitanje" {...field} />)}/>
+            <FormControl>
+          <Input className="text-xl" type='number' placeholder="Unesite negativne bodove za pitanje" {...field} />
+          </FormControl>
+          )}/>
             {type === 'multipleChoice' ?
            <FormField
            control={form.control}
@@ -90,7 +115,7 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
                     {answers.map((item,index) =>
                     {
                       return (
-                        <RadioButtonItemInput key={index} id={id} index={index} item={item}></RadioButtonItemInput>
+                        <RadioButtonItemInput key={index}  index={index} item={item}></RadioButtonItemInput>
                       )
                     })}
                   </RadioGroup>
@@ -100,11 +125,11 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
                 // basic input text
                 <FormField
                 control={form.control}
-                name="username"
+                name="textanswer"
                 render={({ field }) => (
                     <>
                   <FormControl>
-                    <Input placeholder="Your answer..." {...form} />
+                    <Input placeholder="Your answer..." {...field} />
                   </FormControl>
                   <FormMessage />
                   </>
@@ -122,9 +147,25 @@ const QuestionInput = ( { text = '',id=0, type = 0, possibleAnswers = [] }) =>
 <br></br>
 <br></br>
 <br></br>
-<Button onClick={onSubmit}>Dodaj pitanje</Button> 
+<Button  onClick={onSubmit}>Dodaj pitanje</Button> 
 </Card>
   );
 };
 
+
+const formateDate=(inputObject)=>{
+  const outputObject = {
+    ...inputObject, // Copy other properties from the input object
+    text: []
+  };
+  
+  // Collect text properties into an array
+  let index = 0;
+  while (inputObject.hasOwnProperty(`text${index}`)) {
+    outputObject.text.push(inputObject[`text${index}`]);
+    delete outputObject[`text${index}`]; // Optionally remove the property if needed
+    index++;
+  }
+  return outputObject
+}     
 export default QuestionInput;

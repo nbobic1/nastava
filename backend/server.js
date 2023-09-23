@@ -79,11 +79,27 @@ app.get('/getGroups', async(req, res) => {
 })
 
 app.post('/makeGroup', async(req, res) => {
-  console.log(req.session.username,req.session.userRole)
+  
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
   try{
     await client.query(`INSERT INTO grouptable(groupname,username) VALUES('${req.body.groupname}','${req.body.username}')`)
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+ res.send('nice')
+
+})
+
+
+app.post('/addQuestions', async(req, res) => {
+  console.log(req.session.username,req.session.userRole)
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    await client.query(`INSERT INTO questions(group_id,points,negativepoints,qtext,answers,question) VALUES('${req.body.group_id}','${req.body.points}','${req.body.negativepoints}','${req.body.qtext}','${req.body.answers}','${req.body.question}')`)
   } catch(err){
     console.log(err);
   } finally{

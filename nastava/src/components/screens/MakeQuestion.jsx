@@ -9,9 +9,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/@/components/ui/accordion"
+import Loading from "../Loading";
 
 const MakeQuestion =({})=>{
- 
+const [open, setOpen] = useState(false); 
 const [grupe, setGrupe] = useState([]);
 useEffect(() => {
     var username=localStorage.getItem('username')
@@ -24,29 +25,30 @@ useEffect(() => {
 return (
    
 <div className="flex-row justify-around flex mb-5" style={{display: 'block'}}>
+  <Loading open={open}></Loading>
       <Accordion type="single" collapsible className="w-full">
        {
        grupe.map((item,index)=>
 { 
+  
 
 return (
-  <Item item={item}></Item>     
+  <Item item={item} setOpen={setOpen}></Item>     
    )
     })
   }
     </Accordion>
-   
-     
 </div>
 
 
 )
 };
-const Item=({item})=>{
+const Item=({item,setOpen})=>{
   const [questionType,setQ]=useState("multipleChoice");
   const var1=questionType==='multipleChoice'?'outline':'default'
   const var2=questionType==='oneCorrect'?'outline':'default'
   const var3=questionType==='text'?'outline':'default'
+
 return (
   <>
   <AccordionItem  value={item.groupname?? ' '}>
@@ -67,7 +69,7 @@ return (
             }
             } >Text question</Button>     
                </div>
-                          <QuestionInput type={questionType}></QuestionInput>
+                          <QuestionInput item={item} setOpen={setOpen} type={questionType}></QuestionInput>
      </>
           </Card>
         </AccordionContent>
@@ -75,6 +77,5 @@ return (
 </>
 );
 };
-
 
 export default MakeQuestion;
