@@ -22,7 +22,7 @@ const SingleTest = ({}) => {
             console.log('#',i)
             
             axios.post(`http://localhost:3000/getQuestion`,  { id : i.id,num:i.numq}).then((response) => {
-                setPitanja([...pitanja,response.data]);
+                setPitanja([...pitanja,...response.data]);
 
                 console.log("repsonse ovdje " + JSON.stringify(response.data))
               }).catch((error) => {
@@ -38,8 +38,8 @@ const SingleTest = ({}) => {
 
     return(
         <div>
-         {  pitanja.map((item) => (
-                    <Question text={item[0].question} type='oneCorrect' possibleAnswers={item[0].qtext[0]} />
+         {  pitanja.map((item1) => (
+                    <Question item={item1} type='oneCorrect' j/>
                 ))
          }</div>
     )
