@@ -37,7 +37,7 @@ const StudentScreen = ({}) => {
 
         navigate({
             pathname: `/singleTest/${id}`,
-            state: { postId: id ,item:item}
+            state: { postId: id}
         });
     }
 
