@@ -37,7 +37,7 @@ app.post('/login',async(req,res)=>{
         req.session.username=req.body.username
         req.session.userRole='dsf'
         console.log('zapisaooo')
-        res.send('true')
+        res.send(i.userrole)
         temp=false;
         break;
       }
@@ -64,6 +64,21 @@ app.post('/register',async(req,res)=>{
   res.send('ehej')
 })
 
+app.get('/getCountQuestion', async(req, res) => {
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    const odgovor = await client.query(`SELECT COUNT(id) FROM questions WHERE group_id='${req.query.group_id}'`);
+    const data = odgovor.rows;
+    res.send(data);
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+  
+})
+
 app.get('/getGroups', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
@@ -77,6 +92,7 @@ app.get('/getGroups', async(req, res) => {
     await client.end()
   }
 })
+
 
 app.post('/makeGroup', async(req, res) => {
   

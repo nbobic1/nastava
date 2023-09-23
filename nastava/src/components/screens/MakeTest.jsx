@@ -2,7 +2,7 @@ import * as z from "zod"
 import { useForm } from "react-hook-form"
 import * as React from "react"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar as CalendarIcon, ConciergeBell } from "lucide-react"
 import { Calendar } from "@/@/components/ui/calendar"
 import { useEffect } from "react"
 import { cn } from "@/@/lib/utils"
@@ -38,16 +38,40 @@ import MakeQuestion from "./MakeQuestion"
 
   const MakeTest =({})=>{
     const [open, setOpen] = useState(false);
+    const [brojPitanja, setBrojPitanja] = useState(0);
+    const [idPitanja, setIdPitanja] = useState(0);
+  
+
+
+    function returnNumberOfQuestions(idPitanja){
+      console.log("ID pitanja mi izadje" + idPitanja);
+      setIdPitanja(idPitanja);
+      console.log("broj pitanja mi izadje ", brojPitanja)
+      return brojPitanja;
+    }
+
     useEffect(() => {
       if(!open) 
       {
         var username=localStorage.getItem('username')
        axios.get(`http://localhost:3000/getGroups`,{ params: { username: username} }).then((response) => {
          setData(response.data);
+         console.log("JSON od date " + JSON.stringify(data));
+         console.log("data id je ovdje izasla " + data[0]["id"])
+         setIdPitanja(data[0]["id"]);
        }).catch((error) => {
            console.log("error je", error);
        })
-    }},[open])
+    }},[])
+
+    useEffect(() => {
+      axios.get('http://localhost:3000/getCountQuestion', { params: { group_id: idPitanja} }).then((response) => {
+        console.log("ovdje mi ziadje u drugom " + response.data[0]["count"])
+        setBrojPitanja(response.data[0]["count"])
+      }).catch((error) => {
+        console.log("error je", error);
+      })
+    },[brojPitanja]);
 
     const [data, setData] = useState([]);
     const [sliderChange, setSliderChange] = useState(0);
@@ -119,14 +143,14 @@ import MakeQuestion from "./MakeQuestion"
     <Accordion type="single" collapsible className="w-full">
        {
        data.map(item=>
-        <AccordionItem value={item}>
-        <AccordionTrigger>{item.groupname}</AccordionTrigger>
+        <AccordionItem  value={item.id}>
+        <AccordionTrigger onClick={() => {returnNumberOfQuestions(item.id);}}>{item.groupname}</AccordionTrigger>
         <AccordionContent style={{innerHeight: '70px'}}>
-        <TooltipProvider>
+        <TooltipProvider >
           <Tooltip>
             <TooltipTrigger>
             <p>{sliderChange}</p>
-            <Slider  style={{width: '350px'}} defaultValue={[sliderChange]} max={100} step={1} onValueChange={(e)=>{setSliderChange(e)}}>
+            <Slider  style={{width: '350px'}} defaultValue={[sliderChange]} max={brojPitanja} step={1} onValueChange={(e)=>{setSliderChange(e)}}>
               </Slider>
             </TooltipTrigger>
           </Tooltip>

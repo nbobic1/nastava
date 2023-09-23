@@ -54,7 +54,7 @@ const MakeGroup = ({}) => {
     return(
         <div className="flex-row justify-around flex mb-5" style={{display: 'block'}}>
             <Loading open={open}></Loading>
-            <Input placeholder="" className="mt-10" value={nazivGrupe} onChange={(e)=>{setNazivGrupe(e.target.value)}}/>
+            <Input placeholder="Upisite naziv grupe" className="mt-10" value={nazivGrupe} onChange={(e)=>{setNazivGrupe(e.target.value)}}/>
             <Button onClick={dodajGrupu} className="my-5">Dodaj grupu</Button>
             <h1>Postojece grupe</h1>
             <Table style={{ border: '0.5px solid black' }}>

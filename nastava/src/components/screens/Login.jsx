@@ -35,7 +35,13 @@ const Login =({})=>{
             console.log(response.data);
             setIsLogedin(response.data)
             setOpen(false)
-            navigate('/makeTest')
+            if(response.data==='Profesor'){
+                navigate('/makeTest')
+                localStorage.setItem("role", response.data);
+            }else if(response.data==='Student'){
+                navigate('/studentScreen')
+                localStorage.setItem("role", response.data);
+            }
             localStorage.setItem("isLogedin", "true");
             localStorage.setItem('username',form.getValues().username)
           })
