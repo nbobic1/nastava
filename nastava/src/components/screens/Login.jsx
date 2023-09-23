@@ -35,15 +35,15 @@ const Login =({})=>{
             console.log(response.data);
             setIsLogedin(response.data)
             setOpen(false)
-            if(response.data==='Profesor'){
-                navigate('/makeTest')
-                localStorage.setItem("role", response.data);
-            }else if(response.data==='Student'){
-                navigate('/studentScreen')
-                localStorage.setItem("role", response.data);
-            }
             localStorage.setItem("isLogedin", "true");
             localStorage.setItem('username',form.getValues().username)
+            if(response.data==='Profesor'){
+                localStorage.setItem("role", response.data);
+                navigate('/makeTest')
+            }else if(response.data==='Student'){
+                localStorage.setItem("role", response.data);
+                navigate('/studentScreen')
+            }
           })
           .catch(function (error) {
             console.log(error);

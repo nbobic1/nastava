@@ -2,7 +2,7 @@ import * as z from "zod"
 import { useForm } from "react-hook-form"
 import * as React from "react"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon, ConciergeBell } from "lucide-react"
+import { Calendar as CalendarIcon, ConciergeBell, CopySlash } from "lucide-react"
 import { Calendar } from "@/@/components/ui/calendar"
 import { useEffect } from "react"
 import { cn } from "@/@/lib/utils"
@@ -33,52 +33,47 @@ import {
 } from "@/@/components/ui/form"
 import {Popover,PopoverContent,PopoverTrigger} from "@/@/components/ui/popover"
 import { Input } from "@/@/components/ui/input"
-import { Card} from "@/@/components/ui/card"
-import MakeQuestion from "./MakeQuestion"
+
 
   const MakeTest =({})=>{
+    
+    const [data, setData] = useState([]);
+    const [sliderChange, setSliderChange] = useState([]);
+    const [date, setDate] = React.useState('')
     const [open, setOpen] = useState(false);
-    const [brojPitanja, setBrojPitanja] = useState(0);
-    const [idPitanja, setIdPitanja] = useState(0);
-  
-
-
-    function returnNumberOfQuestions(idPitanja){
-      console.log("ID pitanja mi izadje" + idPitanja);
-      setIdPitanja(idPitanja);
-      console.log("broj pitanja mi izadje ", brojPitanja)
-      return brojPitanja;
-    }
-
+    
+const submit=()=>{
+  console.log('dataaa==',data)
+  axios.post('http://localhost:3000/addTest', {username: localStorage.getItem('username'),answers:sliderChange,question:data},
+  {
+  withCredentials: true,
+      headers: {
+      'Access-Control-Allow-Origin':'*',
+      'Content-Type': 'application/json',
+      }})
+      .then(function (response) {
+          setOpen(false)
+      
+          
+      })
+      .catch(function (error) {
+          setOpen(false)
+      console.log('neki error',error,JSON.stringify(error));
+  });
+} 
     useEffect(() => {
       if(!open) 
       {
         var username=localStorage.getItem('username')
        axios.get(`http://localhost:3000/getGroups`,{ params: { username: username} }).then((response) => {
-         setData(response.data);
-         console.log("JSON od date " + JSON.stringify(data));
-         console.log("data id je ovdje izasla " + data[0]["id"])
-         setIdPitanja(data[0]["id"]);
+         setData(response.data); 
+         setSliderChange( new Array(length).fill(response.data.length))
        }).catch((error) => {
            console.log("error je", error);
        })
     }},[])
-
-    useEffect(() => {
-      axios.get('http://localhost:3000/getCountQuestion', { params: { group_id: idPitanja} }).then((response) => {
-        console.log("ovdje mi ziadje u drugom " + response.data[0]["count"])
-        setBrojPitanja(response.data[0]["count"])
-      }).catch((error) => {
-        console.log("error je", error);
-      })
-    },[brojPitanja]);
-
-    const [data, setData] = useState([]);
-    const [sliderChange, setSliderChange] = useState(0);
-    const [date, setDate] = React.useState('')
     const form = useForm()
-    const [grupe, setGrupe] = useState([]);
-    const [nazivGrupe, setNazivGrupe] = useState('');
+    
     return(
         <div className="mb-5 ">
             <Form {...form}>
@@ -142,15 +137,23 @@ import MakeQuestion from "./MakeQuestion"
    <h1 style={{marginTop: '40px'}}>Izaberite broj pitanja po grupi</h1>
     <Accordion type="single" collapsible className="w-full">
        {
-       data.map(item=>
-        <AccordionItem  value={item.id}>
-        <AccordionTrigger onClick={() => {returnNumberOfQuestions(item.id);}}>{item.groupname}</AccordionTrigger>
+       data.map((item,index)=>
+        <AccordionItem key={item.id} value={item.id}>
+        <AccordionTrigger >{item.groupname}</AccordionTrigger>
         <AccordionContent style={{innerHeight: '70px'}}>
         <TooltipProvider >
           <Tooltip>
             <TooltipTrigger>
-            <p>{sliderChange}</p>
-            <Slider  style={{width: '350px'}} defaultValue={[sliderChange]} max={brojPitanja} step={1} onValueChange={(e)=>{setSliderChange(e)}}>
+            <p>{sliderChange[index]} out of {item.numq}</p>
+            <Slider  style={{width: '350px'}} defaultValue={sliderChange[index]} max={item.numq} step={1} onValueChange={(e1)=>{setSliderChange(e=>{
+            var t=e;
+            console.log('e',e1)
+            t[index]=e1;
+              console.log(t)
+            return t;
+            })
+            }
+            }>
               </Slider>
             </TooltipTrigger>
           </Tooltip>
@@ -159,7 +162,7 @@ import MakeQuestion from "./MakeQuestion"
       </AccordionItem>)
     }
     </Accordion>
-    <Button className="mt-16">Submit</Button>
+    <Button onClick={submit} className="mt-16">Submit</Button>
     </div>
     )
   }
