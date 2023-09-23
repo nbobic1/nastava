@@ -11,12 +11,29 @@ import { useState} from "react"
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
+import { response } from "express";
 
 
 
 const StudentScreen = ({}) => {
+
     const navigate=useNavigate()
+    
     const getInTest = (id) => {
+        axios.post('http://localhost:3000/startedTestt', {username: localStorage.getItem('username'), startedTest: 1},
+        {
+        withCredentials: true,
+            headers: {
+            'Access-Control-Allow-Origin':'*',
+            'Content-Type': 'application/json',
+            }})
+            .then(function (response) {      
+                
+            })
+            .catch(function (error) {
+            console.log('neki error',error,JSON.stringify(error));
+        });
+
         navigate({
             pathname: `/singleTest/${id}`,
             state: { postId: id }
@@ -28,7 +45,7 @@ const StudentScreen = ({}) => {
         axios.get(`http://localhost:3000/getTests`).then((response) => {
             setTests(response.data);
           }).catch((error) => {
-              console.log("error je", error);
+                console.log("error je", error);
           })
     },[])
 
