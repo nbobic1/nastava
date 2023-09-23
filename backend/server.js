@@ -131,13 +131,32 @@ app.post('/startedTest', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
   try{
-    await client.query(`INSERT INTO startedtest(username,startedtest) VALUES('${req.body.username}','${req.body.startedTest}')`)
+    await client.query(`INSERT INTO startedtest(username,startedtest,testid) VALUES('${req.body.username}','${req.body.startedTest}','${req.body.testId}')`)
   } catch(err){
     console.log(err);
   } finally{
     await client.end()
   }
 })
+
+app.get('/getTestsForStudent', async(req, res) => {
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    const odgovor = await client.query(` SELECT *
+    FROM tests
+    WHERE id NOT IN (SELECT testid FROM startedtest);
+    `);
+  const data = odgovor.rows;
+  res.send(data);
+  }catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+})
+
+
 
 app.post('/makeGroup', async(req, res) => {
   

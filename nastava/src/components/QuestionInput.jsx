@@ -20,7 +20,7 @@ import RadioButtonItemInput from "./RadioButtonItemInput";
 import { useState } from 'react'
 const QuestionInput = ( { setOpen, type = 0, item}) =>
 {
-  
+  const [selectedAnswer, setSelectedAnswer] = useState('option-one');
   const form = useForm()
   const {reset}=form
   const [answers, setAnswer] = useState([]);
@@ -115,7 +115,7 @@ var data=formateDate(form.getValues())
                     {answers.map((item,index) =>
                     {
                       return (
-                        <RadioButtonItemInput key={index}  index={index} item={item}></RadioButtonItemInput>
+                        <RadioButtonItemInput field={field} form={form} key={index} id={index} index={index} item={item}></RadioButtonItemInput>
                       )
                     })}
                   </RadioGroup>
