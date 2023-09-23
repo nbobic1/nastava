@@ -17,13 +17,17 @@ app.use(cors({
   origin: ['http://127.0.0.1:5173','http://localhost:5173'],
   credentials:true
 }));
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
 app.post('/logout',async(req,res)=>{
 req.session.isLogedin=false
 res.send('true')
 })
+
+
 app.post('/login',async(req,res)=>{
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
 	await client.connect()
@@ -64,8 +68,38 @@ app.post('/register',async(req,res)=>{
   res.send('ehej')
 })
 
+app.get('/getTests', async(req,res) => {
+  console.log("Usko je ovdje u funckiju")
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    const odgovor = await client.query(`SELECT * FROM tests`);
+    const data = odgovor.rows;
+    res.send(data);
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+})
 
-
+app.get('/getQuestions', async(req, res) => {
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    const odgovor = await client.query(` SELECT questions.* 
+    FROM tests 
+    INNER JOIN questions 
+    ON questions.id::json IN (tests.question)
+    WHERE tests.id = '${req.query.id}'`);
+  const data = odgovor.rows;
+  res.send(data);
+  }catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+})
 
 app.get('/getGroups', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})

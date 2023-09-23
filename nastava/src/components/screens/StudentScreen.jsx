@@ -7,22 +7,49 @@ import {
     CardTitle,
   } from "@/@/components/ui/card"
 
-const StudentScreen = () => {
+import { useState} from "react"
+import { useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"
+
+
+
+const StudentScreen = ({}) => {
+    const navigate=useNavigate()
+    const getInTest = (id) => {
+        navigate({
+            pathname: `/singleTest/${id}`,
+            state: { postId: id }
+        });
+    }
+
+    const [tests, setTests] = useState([]);
+    useEffect(() => {
+        axios.get(`http://localhost:3000/getTests`).then((response) => {
+            setTests(response.data);
+          }).catch((error) => {
+              console.log("error je", error);
+          })
+    },[])
+
     return(
         <div className="flex-row justify-around flex mb-5" style={{display: 'block'}}>
             <h1>Dostupni testovi za rad</h1>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Card Title</CardTitle>
-                    <CardDescription>Card Description</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p>Card Content</p>
-                </CardContent>
-                <CardFooter>
-                    <p>Card Footer</p>
-                </CardFooter>
-            </Card>
+            {
+                tests.map((test) => (
+                    <Card onClick = {() => getInTest(test.id)}>
+                        <CardHeader>
+                            <CardTitle>Naziv testa: {test.title}</CardTitle>
+                        </CardHeader>
+
+                        <CardFooter>
+                            <p>Pocetak testa: {test.testdate}</p>
+                            <p style={{marginLeft: '20px'}}>Trajanje testa: {test.minutes} minute</p>
+                        </CardFooter>
+                    </Card>
+                ))
+            }
+           
       </div>
     )
 }

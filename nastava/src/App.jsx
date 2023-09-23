@@ -8,6 +8,7 @@ import Login from './components/screens/Login'
 import Register from './components/screens/Register'
 import MakeGroup from './components/screens/MakeGroup'
 import StudentScreen from './components/screens/StudentScreen'
+import SingleTest from './components/screens/SingleTest'
 import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
 import { useAtom } from 'jotai'
 import { isLogedinState } from './atoms'
@@ -68,6 +69,7 @@ function App()
           <Route path='/register' element={<Register />} />
           <Route path='/makeQuestion' element={<ProtectedRoute><MakeQuestion /></ProtectedRoute>} />
           <Route path='/studentScreen' element={<ProtectedRoute><StudentScreen /></ProtectedRoute>} />
+          <Route path='/singleTest/:id' element={<ProtectedRoute><SingleTest /></ProtectedRoute>} />
           <Route path='/makeTest' element={<ProtectedRoute><MakeTest /></ProtectedRoute>} />
           <Route path='/makeGroup' element={<ProtectedRoute><MakeGroup /></ProtectedRoute>} />
           <Route path='/test' element={<div className="text-left">
