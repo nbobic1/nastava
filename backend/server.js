@@ -113,7 +113,7 @@ app.post('/makeTest', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
   try{
-    await client.query(`INSERT INTO tests(username,answers,question) VALUES('${req.body.username}','${req.body.answers}','${req.body.question}')`)
+    await client.query(`INSERT INTO tests(username,answers,question,testdate,title,minutes) VALUES('${req.body.username}','${req.body.answers}','${req.body.question}','${req.body.date}','${req.body.nazivTesta}','${req.body.trajanjeTesta}')`)
   } catch(err){
     console.log(err);
   } finally{

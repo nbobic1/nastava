@@ -41,8 +41,10 @@ import { Input } from "@/@/components/ui/input"
     const [sliderChange, setSliderChange] = useState([]);
     const [date, setDate] = React.useState('')
     const [open, setOpen] = useState(false);
+    const form = useForm()
 const submit=()=>{
-  axios.post('http://localhost:3000/makeTest', {username: localStorage.getItem('username'),answers:JSON.stringify(sliderChange),question:JSON.stringify(data)},
+  console.log('data====dsfdf',form.getValues())
+  axios.post('http://localhost:3000/makeTest', {username: localStorage.getItem('username'),answers:JSON.stringify(sliderChange),question:JSON.stringify(data),...form.getValues(),date:JSON.stringify(date)},
   {
   withCredentials: true,
       headers: {
@@ -70,7 +72,6 @@ const submit=()=>{
            console.log("error je", error);
        })
     }},[])
-    const form = useForm()
     
     return(
         <div className="mb-5 ">
