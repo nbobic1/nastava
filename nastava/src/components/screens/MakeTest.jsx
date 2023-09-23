@@ -82,7 +82,7 @@ import MakeQuestion from "./MakeQuestion"
             <FormItem>
               <FormLabel>Trajanje testa</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input type="number" placeholder="" {...field} />
               </FormControl>
               <FormDescription>
                 u ovo polje upiste koliko ce trajati test u minutama
@@ -115,7 +115,7 @@ import MakeQuestion from "./MakeQuestion"
         </Popover>
       </form>
     </Form>
-   <h1 style={{marginTop: '40px'}}>Izaberite grupu i broj pitanja po grupi</h1>
+   <h1 style={{marginTop: '40px'}}>Izaberite broj pitanja po grupi</h1>
     <Accordion type="single" collapsible className="w-full">
        {
        data.map(item=>
