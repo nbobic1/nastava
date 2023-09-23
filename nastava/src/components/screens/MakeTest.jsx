@@ -4,6 +4,7 @@ import * as React from "react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/@/components/ui/calendar"
+import { useEffect } from "react"
 import { cn } from "@/@/lib/utils"
 import { useState} from "react"
 import {
@@ -13,6 +14,14 @@ import {
   AccordionTrigger,
 } from "@/@/components/ui/accordion"
 import {Button} from "@/@/components/ui/button"
+import { Slider } from "@/@/components/ui/slider"
+import axios from "axios";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/@/components/ui/tooltip"
 import {
     Form,
     FormControl,
@@ -28,14 +37,24 @@ import { Card} from "@/@/components/ui/card"
 import MakeQuestion from "./MakeQuestion"
 
   const MakeTest =({})=>{
+    const [open, setOpen] = useState(false);
+    useEffect(() => {
+      if(!open) 
+      {
+        var username=localStorage.getItem('username')
+       axios.get(`http://localhost:3000/getGroups`,{ params: { username: username} }).then((response) => {
+         setData(response.data);
+       }).catch((error) => {
+           console.log("error je", error);
+       })
+    }},[open])
+
+    const [data, setData] = useState([]);
+    const [sliderChange, setSliderChange] = useState(0);
     const [date, setDate] = React.useState('')
     const form = useForm()
     const [grupe, setGrupe] = useState([]);
     const [nazivGrupe, setNazivGrupe] = useState('');
-    const dodajGrupu=()=>{
-      setGrupe((a)=>[...a,nazivGrupe])
-      setNazivGrupe('')
-    }
     return(
         <div className="mb-5 ">
             <Form {...form}>
@@ -51,22 +70,6 @@ import MakeQuestion from "./MakeQuestion"
               </FormControl>
               <FormDescription>
                 u ovo polje upisite naziv testa
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="brojGrupa"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Broj grupa testa</FormLabel>
-              <FormControl>
-                <Input placeholder="" {...field} />
-              </FormControl>
-              <FormDescription>
-                u ovo polje upiste broj grupa testa
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -112,24 +115,28 @@ import MakeQuestion from "./MakeQuestion"
         </Popover>
       </form>
     </Form>
-    <Input placeholder="" className="mt-10" value={nazivGrupe} onChange={(e)=>{setNazivGrupe(e.target.value)}} />   
-        <Button onClick={dodajGrupu} className="my-5">Izaberi grupu</Button>
+   <h1 style={{marginTop: '40px'}}>Izaberite grupu i broj pitanja po grupi</h1>
     <Accordion type="single" collapsible className="w-full">
        {
-       grupe.map(item=>
+       data.map(item=>
         <AccordionItem value={item}>
-        <AccordionTrigger>{item}</AccordionTrigger>
-        <AccordionContent>
-          <Card className="p-5">
-          <MakeQuestion key={item}></MakeQuestion>
-        </Card>
+        <AccordionTrigger>{item.groupname}</AccordionTrigger>
+        <AccordionContent style={{innerHeight: '70px'}}>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+            <p>{sliderChange}</p>
+            <Slider  style={{width: '350px'}} defaultValue={[sliderChange]} max={100} step={1} onValueChange={(e)=>{setSliderChange(e)}}>
+              </Slider>
+            </TooltipTrigger>
+          </Tooltip>
+        </TooltipProvider>
         </AccordionContent>
       </AccordionItem>)
     }
     </Accordion>
-   
-        <Button className="mt-16">Submit</Button>
-        </div>
+    <Button className="mt-16">Submit</Button>
+    </div>
     )
   }
 
