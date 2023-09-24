@@ -42,6 +42,7 @@ import { Input } from "@/@/components/ui/input"
     const [date, setDate] = React.useState('')
     const [open, setOpen] = useState(false);
     const form = useForm()
+    console.log('s;odelk;a',sliderChange)
 const submit=()=>{
   console.log('data====dsfdf',form.getValues())
   axios.post('http://localhost:3000/makeTest', {username: localStorage.getItem('username'),answers:JSON.stringify(sliderChange),question:JSON.stringify(data),...form.getValues(),date:JSON.stringify(date)},
@@ -145,7 +146,7 @@ const submit=()=>{
             <TooltipTrigger>
             <p>{sliderChange[index]} out of {item.numq}</p>
             <Slider  style={{width: '350px'}} defaultValue={[sliderChange[index]]} max={item.numq} step={1} onValueChange={(e1)=>{
-               var t=e1;
+               var t=[...sliderChange];
                t[index]=e1[0];
               setSliderChange(t)
             }
