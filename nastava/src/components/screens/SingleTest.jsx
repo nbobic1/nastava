@@ -13,6 +13,7 @@ import {Button} from "@/@/components/ui/button"
 
 const SingleTest = ({}) => {
     const navigate = useNavigate();
+    const [points, setPoints] = useState(0);
     let { id } = useParams();
     const [item,setItem]=useAtom(singleTest)
     const [pitanja, setPitanja] = useState([])
@@ -29,7 +30,6 @@ const SingleTest = ({}) => {
             pathname: `/studentScreen`,
         });
     }
-    
     useEffect(() => {
         setPitanja([])
        var arr=[]
@@ -44,14 +44,27 @@ const SingleTest = ({}) => {
         })
        
     }, [])
-
+    
+    useEffect(()=>{
+        if(pitanja.length>0&& currentQuestionIndex=== pitanja.length)
+        axios.post('http://localhost:3000/addPoints', {username:localStorage.getItem('username'),idtesta:item.id,nazivTesta:item.title,points:points},{
+            withCredentials: true,
+            headers: {
+              'Access-Control-Allow-Origin':'*',
+              'Content-Type': 'application/json',
+            }})
+          .then(function (response) {   
+          })
+          .catch(function (error) {
+          });
+    },[points]);
     return(
         <div>
    
         {pitanja.length > 0 && (
         <div>
            { currentQuestionIndex!== pitanja.length ?
-                    <Question item={pitanja[currentQuestionIndex]} next = {handleNextQuestion} tren = {currentQuestionIndex} duz= {pitanja.length} />
+                    <Question points={[points,setPoints]} item={pitanja[currentQuestionIndex]} next = {handleNextQuestion} tren = {currentQuestionIndex} duz= {pitanja.length} />
                     : <h1>Kraj</h1>
                 }
         </div>

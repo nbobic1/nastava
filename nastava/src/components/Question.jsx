@@ -25,16 +25,23 @@ import { CheckboxWithText } from "./CheckboxWithText";
 import RadioButtonItem from "./RadioButtonItem";
 import { useAtom } from 'jotai'
 function arraysAreEqual(arr1, arr2) {
-  if (arr1.length !== arr2.length) return false;
+  try{
+    if (arr1.length !== arr2.length) return false;
   arr1.sort();
   arr2.sort();
   for (let i = 0; i < arr1.length; i++) {
     if (arr1[i] !== arr2[i]) return false;
   }
   return true;
+
+  }
+  catch(e){
+    return false
+  }
 }
-const Question = ({ next,item}) =>
+const Question = ({ points,next,item}) =>
 {
+  const [bodovi,setBodovi]=points
   var type=checkAnswerType(item.answers)
   const form = useForm()
   const submit = () =>
@@ -53,7 +60,10 @@ const Question = ({ next,item}) =>
     if(isOk)
     {
       console.log('tacno odgovoreno pitanje')
+      setBodovi(bodovi+item.points)
     }
+    else
+    setBodovi(bodovi-item.negativepoints)
     next()
   }
   return (

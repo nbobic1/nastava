@@ -139,6 +139,19 @@ app.post('/startedTest', async(req, res) => {
   }
 })
 
+
+app.post('/addPoints', async(req, res) => {
+  const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
+  await client.connect()
+  try{
+    await client.query(`INSERT INTO results(idtesta,nazivtesta,username,points) VALUES(${req.body.idtesta},'${req.body.nazivTesta}','${req.body.username}',${req.body.points})`)
+  } catch(err){
+    console.log(err);
+  } finally{
+    await client.end()
+  }
+})
+
 app.get('/getTestsForStudent', async(req, res) => {
   const client = new Client({connectionString:'postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb',ssl:{rejectUnauthorized:false}})
   await client.connect()
