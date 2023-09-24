@@ -18,12 +18,12 @@ import
   } from "@/@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/@/components/ui/radio-group"
 import { Input } from "@/@/components/ui/input"
-
+import {Button} from "@/@/components/ui/button"
 import { useForm } from "react-hook-form"
 import { CheckboxWithText } from "./CheckboxWithText";
 import RadioButtonItem from "./RadioButtonItem";
 import { useAtom } from 'jotai'
-const Question = ({ item}) =>
+const Question = ({ item , next, tren, duz}) =>
 {
   
   console.log('adfda',item,item.answer)
@@ -34,6 +34,12 @@ const Question = ({ item}) =>
   {
 
   }
+
+  const dajBodove = () => {
+
+      console.log("nesto ", form.getValues())
+  }
+
   return (
 <Card className="mb-5 border-[#0F172A55]">
     <Form {...form} >
@@ -83,13 +89,15 @@ const Question = ({ item}) =>
           )}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <button type="submit" style={{ marginLeft: '50%' }}>Submit</button>
           <p style={{ marginLeft: 'auto' }}> 
           {item.points === 1 ? 'Pitanje iznosi 1 bod' : item.points >=5 ? `Pitanje iznosi ${item.points} bodova` : `Pitanje iznosi ${item.points} boda`}
           </p>
         </div>
       </form>
     </Form>
+    <Button onClick={()=>{
+      dajBodove();
+      next()}} disabled={tren === duz - 1} className="mb-16">Sljedece pitanjae</Button>
     </Card>
   );
 };

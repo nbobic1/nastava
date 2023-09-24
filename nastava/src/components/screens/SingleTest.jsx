@@ -5,16 +5,32 @@ import axios from "axios";
 import Question from "../Question";
 import { useAtom } from "jotai";
 import { singleTest } from "../../atoms";
+import { useNavigate } from "react-router-dom";
 
 import {Button} from "@/@/components/ui/button"
 
 
 
 const SingleTest = ({}) => {
+    const navigate = useNavigate();
     let { id } = useParams();
     const [item,setItem]=useAtom(singleTest)
     const [pitanja, setPitanja] = useState([])
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
+    const handleNextQuestion = () => {
+        // Check if there are more questions to display
+        if (currentQuestionIndex < pitanja.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+        }
+      };
+
+    const vratiNazad = () => {
+        navigate({
+            pathname: `/studentScreen`,
+        });
+    }
+    
     useEffect(() => {
         
         setPitanja([])
@@ -36,11 +52,14 @@ const SingleTest = ({}) => {
 
     return(
         <div>
-         {  pitanja.map((item1) => (
-                    <Question item={item1}  />
-                ))
-         }
-         <Button className="mt-16">Predaj test</Button>
+   
+        {pitanja.length > 0 && (
+        <div>
+          <Question item={pitanja[currentQuestionIndex]} next = {handleNextQuestion} tren = {currentQuestionIndex} duz= {pitanja.length} />
+          
+        </div>
+      )}
+         <Button onCLick = {vratiNazad} className="mt-16">Predaj test</Button>
          </div>
     )
 }
