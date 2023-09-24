@@ -82,8 +82,12 @@ const Question = ({ item}) =>
               </>
           )}
         />
-
-        <button type="submit">Submit</button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <button type="submit" style={{ marginLeft: '50%' }}>Submit</button>
+          <p style={{ marginLeft: 'auto' }}> 
+          {item.points === 1 ? 'Pitanje iznosi 1 bod' : item.points >=5 ? `Pitanje iznosi ${item.points} bodova` : `Pitanje iznosi ${item.points} boda`}
+          </p>
+        </div>
       </form>
     </Form>
     </Card>

@@ -6,6 +6,8 @@ import Question from "../Question";
 import { useAtom } from "jotai";
 import { singleTest } from "../../atoms";
 
+import {Button} from "@/@/components/ui/button"
+
 
 
 const SingleTest = ({}) => {
@@ -32,7 +34,7 @@ const SingleTest = ({}) => {
        
     }, [])
 
-    
+    console.log("Item ovdje izadje  " + JSON.stringify(item));
   
     
 
@@ -41,7 +43,9 @@ const SingleTest = ({}) => {
          {  pitanja.map((item1) => (
                     <Question item={item1} type='oneCorrect' j/>
                 ))
-         }</div>
+         }
+         <Button className="mt-16">Predaj test</Button>
+         </div>
     )
 }
 

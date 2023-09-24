@@ -20,7 +20,7 @@ import RadioButtonItemInput from "./RadioButtonItemInput";
 import { useState } from 'react'
 const QuestionInput = ( { setOpen, type = 0, item}) =>
 {
-  
+  const [selectedAnswer, setSelectedAnswer] = useState('option-one');
   const form = useForm()
   const {reset}=form
   const [answers, setAnswer] = useState([]);
