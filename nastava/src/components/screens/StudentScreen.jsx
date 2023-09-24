@@ -22,7 +22,7 @@ const StudentScreen = ({}) => {
     const navigate=useNavigate() 
     const [item,setItem]=useAtom(singleTest)
     const getInTest = (id,item) => {
-      /*  axios.post('http://localhost:3000/startedTest', {username: localStorage.getItem('username'), startedTest: 1, testId: id},
+       axios.post('http://localhost:3000/startedTest', {username: localStorage.getItem('username'), startedTest: 1, testId: id},
         {
         withCredentials: true,
             headers: {
@@ -35,7 +35,7 @@ const StudentScreen = ({}) => {
             .catch(function (error) {
             console.log('neki error',error,JSON.stringify(error));
         });
-        console.log('item dfaf',item)*/
+        console.log('item dfaf',item)
        setItem(item) 
         navigate({
             pathname: `/singleTest/${id}`,
