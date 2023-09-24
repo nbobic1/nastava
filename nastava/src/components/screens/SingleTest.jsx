@@ -17,10 +17,9 @@ const SingleTest = ({}) => {
     const [item,setItem]=useAtom(singleTest)
     const [pitanja, setPitanja] = useState([])
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
     const handleNextQuestion = () => {
         // Check if there are more questions to display
-        if (currentQuestionIndex < pitanja.length - 1) {
+        if (currentQuestionIndex < pitanja.length ) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
       };
@@ -32,21 +31,17 @@ const SingleTest = ({}) => {
     }
     
     useEffect(() => {
-        
         setPitanja([])
-        
+       var arr=[]
         for(var i of item.question)
         {
-            console.log('#',i)
-            
-            axios.post(`http://localhost:3000/getQuestion`,  { id : i.id,num:i.numq}).then((response) => {
-                setPitanja([...pitanja,...response.data]);
-
-                console.log("repsonse ovdje " + JSON.stringify(response.data))
-              }).catch((error) => {
-                  console.log("error je", error);
-              })
+            arr.push(new Promise((resolve,reject)=>{
+                axios.post(`http://localhost:3000/getQuestion`,  { id : i.id,num:i.numq}).then(response=>resolve(response.data))
+            }))
         }
+        Promise.all(arr).then(nes=>{
+            setPitanja(nes.flat())
+        })
        
     }, [])
 
@@ -55,11 +50,13 @@ const SingleTest = ({}) => {
    
         {pitanja.length > 0 && (
         <div>
-          <Question item={pitanja[currentQuestionIndex]} next = {handleNextQuestion} tren = {currentQuestionIndex} duz= {pitanja.length} />
-          
+           { currentQuestionIndex!== pitanja.length ?
+                    <Question item={pitanja[currentQuestionIndex]} next = {handleNextQuestion} tren = {currentQuestionIndex} duz= {pitanja.length} />
+                    : <h1>Kraj</h1>
+                }
         </div>
       )}
-         <Button onClick = { () => {vratiNazad()}} className="mt-16">Predaj test</Button>
+        
          </div>
     )
 }

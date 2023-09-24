@@ -8,6 +8,7 @@ import
     FormLabel,
     FormMessage,
   } from "@/@/components/ui/form"
+  import {Button} from "@/@/components/ui/button"
   import {
     Card,
     CardContent,
@@ -18,49 +19,69 @@ import
   } from "@/@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/@/components/ui/radio-group"
 import { Input } from "@/@/components/ui/input"
-import {Button} from "@/@/components/ui/button"
+
 import { useForm } from "react-hook-form"
 import { CheckboxWithText } from "./CheckboxWithText";
 import RadioButtonItem from "./RadioButtonItem";
 import { useAtom } from 'jotai'
-const Question = ({ item , next, tren, duz}) =>
+function arraysAreEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  arr1.sort();
+  arr2.sort();
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+  return true;
+}
+const Question = ({ next,item}) =>
 {
-  
-  console.log('adfda',item,item.answer)
   var type=checkAnswerType(item.answers)
-  console.log('type',type)
   const form = useForm()
-  const onSubmit = () =>
+  const submit = () =>
   {
-
+    var isOk=false
+    if(type==='multipleChoice')
+    {
+      var t=item.answers.split(',')
+      var k=t.map(item=>parseInt(item))
+      isOk=arraysAreEqual(k,form.getValues().answer)
+    }
+    else if(type==='text')
+    {
+      isOk=form.getValues().textanswer===item.answers
+    }
+    if(isOk)
+    {
+      console.log('tacno odgovoreno pitanje')
+    }
+    next()
   }
-
-  const dajBodove = () => {
-
-      console.log("nesto ", form.getValues())
-  }
-
   return (
 <Card className="mb-5 border-[#0F172A55]">
     <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)}   className=" br border-black space-y-8  p-5 ">
+      <form   className=" br border-black space-y-8  p-5 ">
         <FormField
           control={form.control}
-          name="username"
+          name="textanswer"
           render={({ field }) => (
             <>
             <FormLabel className="text-xl">{item.question}</FormLabel>
             {type === 'multipleChoice' ?
 
               <FormItem>
+                <FormField
+              control={form.control}
+              name="answer"
+              render={({ field }) => (
                 <RadioGroup defaultValue="option-one">
                   {item.qtext.split(',').map((item,index) =>
                   {
                     return (
-                      <CheckboxWithText key={index} text={item}></CheckboxWithText>
+                      <CheckboxWithText key={index} index={index} field={field} text={item}></CheckboxWithText>
                     )
                   })}
                 </RadioGroup>
+                )}/>
               </FormItem>
               :
               (type === 'oneCorrect' ?
@@ -70,7 +91,7 @@ const Question = ({ item , next, tren, duz}) =>
                     {item.qtext.split(',').map((item,index) =>
                     {
                       return (
-                        <RadioButtonItem key={index} item={item}></RadioButtonItem>
+                        <RadioButtonItem form={form} key={index} item={item}></RadioButtonItem>
                       )
                     })}
                   </RadioGroup>
@@ -88,21 +109,14 @@ const Question = ({ item , next, tren, duz}) =>
               </>
           )}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <p style={{ marginLeft: 'auto' }}> 
-          {item.points === 1 ? 'Pitanje iznosi 1 bod' : item.points >=5 ? `Pitanje iznosi ${item.points} bodova` : `Pitanje iznosi ${item.points} boda`}
-          </p>
-        </div>
+
       </form>
     </Form>
-    <Button onClick={()=>{
-      dajBodove();
-      next()}} disabled={tren === duz - 1} className="mb-16">Sljedece pitanjae</Button>
+        <Button className="mb-5"  onClick={submit} >Submit</Button>
     </Card>
   );
 };
 function checkAnswerType(answer) {
-  console.log('dfaa=',answer)
   if (/^\d+$/.test(answer)) {
     // Check if the answer is a single number (e.g., '1')
     return 'oneCorrect';
