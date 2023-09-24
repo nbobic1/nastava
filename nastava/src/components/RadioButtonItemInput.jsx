@@ -9,15 +9,18 @@ import {
   } from "@/@/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/@/components/ui/radio-group"
 import { Input } from "@/@/components/ui/input";
-const RadioButtonItemInput =({item,index})=>{
+const RadioButtonItemInput =({form,index})=>{
 return (
     <FormItem className="flex items-center space-x-3 space-y-0">
     <FormControl>
       <RadioGroupItem value={index} />
     </FormControl>
-    <FormControl>
-        <Input placeholder="One of the answers..."></Input>
-    </FormControl>
+    <FormField
+          control={form.control}
+          name={"text"+index}
+          render={({ field }) => (
+        <Input  {...field} placeholder="One of the answers..."></Input>
+           )}/>
   </FormItem>
 );
 };

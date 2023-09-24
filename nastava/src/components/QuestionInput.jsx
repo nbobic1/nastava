@@ -44,7 +44,7 @@ var data=formateDate(form.getValues())
           textanswer:'',
           points:0,
           negativepoints:0,
-        
+          answer:''
          })
         setAnswer([])
         })
@@ -115,7 +115,7 @@ var data=formateDate(form.getValues())
                     {answers.map((item,index) =>
                     {
                       return (
-                        <RadioButtonItemInput key={index}  index={index} item={item}></RadioButtonItemInput>
+                        <RadioButtonItemInput  key={index}  index={index} form={form} item={item}></RadioButtonItemInput>
                       )
                     })}
                   </RadioGroup>
@@ -154,6 +154,7 @@ var data=formateDate(form.getValues())
 
 
 const formateDate=(inputObject)=>{
+  console.log('input object',inputObject)
   const outputObject = {
     ...inputObject, // Copy other properties from the input object
     text: []
@@ -166,6 +167,7 @@ const formateDate=(inputObject)=>{
     delete outputObject[`text${index}`]; // Optionally remove the property if needed
     index++;
   }
+  console.log('outputOb',outputObject)
   return outputObject
 }     
 export default QuestionInput;
