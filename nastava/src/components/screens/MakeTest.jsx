@@ -33,7 +33,7 @@ import {
 } from "@/@/components/ui/form"
 import {Popover,PopoverContent,PopoverTrigger} from "@/@/components/ui/popover"
 import { Input } from "@/@/components/ui/input"
-
+import Loading from "../Loading"
 
   const MakeTest =({})=>{
     
@@ -42,9 +42,8 @@ import { Input } from "@/@/components/ui/input"
     const [date, setDate] = React.useState('')
     const [open, setOpen] = useState(false);
     const form = useForm()
-    console.log('s;odelk;a',sliderChange)
 const submit=()=>{
-  console.log('data====dsfdf',form.getValues())
+  setOpen(true)
   axios.post('http://localhost:3000/makeTest', {username: localStorage.getItem('username'),answers:JSON.stringify(sliderChange),question:JSON.stringify(data),...form.getValues(),date:JSON.stringify(date)},
   {
   withCredentials: true,
@@ -54,8 +53,7 @@ const submit=()=>{
       }})
       .then(function (response) {
           setOpen(false)
-      
-          
+          setSliderChange(new Array(sliderChange.length).fill(0))
       })
       .catch(function (error) {
           setOpen(false)
@@ -76,6 +74,7 @@ const submit=()=>{
     
     return(
         <div className="mb-5 ">
+          <Loading open={open}></Loading>
             <Form {...form}>
       <form className="space-y-8 mx-auto max-w-[300px]">
         <FormField
