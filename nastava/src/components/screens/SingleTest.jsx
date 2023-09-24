@@ -59,7 +59,7 @@ const SingleTest = ({}) => {
           
         </div>
       )}
-         <Button onCLick = {vratiNazad} className="mt-16">Predaj test</Button>
+         <Button onClick = { () => {vratiNazad()}} className="mt-16">Predaj test</Button>
          </div>
     )
 }
