@@ -34,14 +34,10 @@ const SingleTest = ({}) => {
        
     }, [])
 
-    console.log("Item ovdje izadje  " + JSON.stringify(item));
-  
-    
-
     return(
         <div>
          {  pitanja.map((item1) => (
-                    <Question item={item1} type='oneCorrect' j/>
+                    <Question item={item1}  />
                 ))
          }
          <Button className="mt-16">Predaj test</Button>

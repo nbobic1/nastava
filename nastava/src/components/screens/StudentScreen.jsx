@@ -57,7 +57,7 @@ const StudentScreen = ({}) => {
             <h1>Dostupni testovi za rad</h1>
             {
                 tests.map((test) => (
-                    <Card onClick = {() => getInTest(test.id,test)}>
+                    <Card className="my-5"  onClick = {() => getInTest(test.id,test)}> 
                         <CardHeader>
                             <CardTitle>Naziv testa: {test.title}</CardTitle>
                         </CardHeader>
