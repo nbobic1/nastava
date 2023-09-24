@@ -15,6 +15,7 @@ import { isLogedinState } from './atoms'
 import ProtectedRoute from './components/ProtectedRoute'
 import axios from 'axios'
 import { useEffect } from 'react'
+import Results from './components/screens/Results'
 function App()
 {
   const [isLogedin, setIsLogedin] = useAtom(isLogedinState)
@@ -39,12 +40,14 @@ function App()
           </>
           :
           <>
-          {localStorage.getItem('role') === 'Profesor' && (
+          {localStorage.getItem('role') === 'Profesor' ? (
             <>
               <Link to="/makeQuestion"><Button>Make question</Button></Link>
               <Link to="/makeTest"><Button >Make test</Button> </Link>
               <Link to="/makeGroup"><Button>Make a group</Button></Link>
             </>
+            ):(
+            <Link to="/results"><Button>Results</Button></Link>
           )}
         
            <Link to="/login"><Button onClick={() => { setIsLogedin(false); 
@@ -70,14 +73,10 @@ function App()
           <Route path='/makeQuestion' element={<ProtectedRoute><MakeQuestion /></ProtectedRoute>} />
           <Route path='/studentScreen' element={<ProtectedRoute><StudentScreen /></ProtectedRoute>} />
           <Route path='/singleTest/:id' element={<ProtectedRoute><SingleTest /></ProtectedRoute>} />
-          <Route path='/makeTest' element={<ProtectedRoute><MakeTest /></ProtectedRoute>} />
-          <Route path='/makeGroup' element={<ProtectedRoute><MakeGroup /></ProtectedRoute>} />
-          <Route path='/test' element={<div className="text-left">
-            <Question text='why are u dumb' type={'multipleChoice'} possibleAnswers={['nestojkl', 'nes sdfs', 'sdfsdf']}></Question>
-            <Question text='why are u dumb' type={'df'} possibleAnswers={['nestojkl', 'nes sdfs', 'sdfsdf']}></Question>
-            <Question text='why are u dumb' type={'oneCorrect'} possibleAnswers={['nestojkl', 'nes sdfs', 'sdfsdf']}></Question>
-          </div>
-          } />
+          <Route path='/makeTest' element={<ProtectedRoute p={true}><MakeTest /></ProtectedRoute>} />
+          <Route path='/makeGroup' element={<ProtectedRoute p={true}><MakeGroup /></ProtectedRoute>} />
+          <Route path='/results' element={<ProtectedRoute><Results></Results>
+         </ProtectedRoute> } />
         </Routes>
       </BrowserRouter>
     </div>
