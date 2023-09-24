@@ -34,7 +34,7 @@ const SingleTest = ({}) => {
        
     }, [])
 
-    
+    console.log("Item ovdje izadje  " + JSON.stringify(item));
   
     
 
