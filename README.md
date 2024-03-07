@@ -4,7 +4,7 @@ Osnovna kopija : https://moodle.com/
 PostgreSQL NodeJS React
 
 
-#Run with 
+Run with 
 
 cd backend
 
