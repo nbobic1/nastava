@@ -347,6 +347,10 @@ app.post("/getRezults", async (req, res) => {
   }
 });
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 var https = require("https");
 var fs = require("fs");
 var options = {
