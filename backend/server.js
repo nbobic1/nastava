@@ -171,9 +171,8 @@ app.post("/startedTest", async (req, res) => {
   await client.connect();
   try {
     await client.query(
-      `INSERT INTO startedtest(username,startedtest,testid) VALUES($1,$2,$3)`[
-        (req.body.username, req.body.startedTest, req.body.testId)
-      ]
+      `INSERT INTO startedtest(username,startedtest,testid) VALUES($1,$2,$3)`,
+      [req.body.username, req.body.startedTest, req.body.testId]
     );
   } catch (err) {
     console.log(err);
