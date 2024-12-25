@@ -147,7 +147,7 @@ LEFT JOIN
     questions t2
 ON
     t1.id = t2.group_id
-    WHERE t1.username=$1'
+    WHERE t1.username=$1
 GROUP BY
     t1.id; 
     `,
