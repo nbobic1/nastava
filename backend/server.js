@@ -348,6 +348,11 @@ app.post("/getRezults", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+var https = require("https");
+var fs = require("fs");
+var options = {
+  key: fs.readFileSync("./privatekey.pem"),
+  cert: fs.readFileSync("./server.crt"),
+};
+
+https.createServer(options, app).listen(443);
