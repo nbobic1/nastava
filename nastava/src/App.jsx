@@ -54,9 +54,14 @@ function App() {
                   </Link>
                 </>
               ) : (
-                <Link to="/results">
-                  <Button>Results</Button>
-                </Link>
+                <>
+                  <Link to="/results">
+                    <Button>Results</Button>
+                  </Link>
+                  <Link to="/studentScreen">
+                    <Button>Test</Button>
+                  </Link>
+                </>
               )}
 
               <Link to="/login">

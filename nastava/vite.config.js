@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import path from "path"
- 
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -10,6 +10,10 @@ export default defineConfig({
     },
   },
   experimental: {
-    swcPlugins: [['@swc-jotai/react-refresh', {}]],
-  }  
-})
+    swcPlugins: [["@swc-jotai/react-refresh", {}]],
+  },
+  build: {
+    outDir: "../backend/public", // Adjust relative path to point to /backend/public
+    emptyOutDir: true, // This ensures that the /backend/public directory is emptied before each build
+  },
+});
