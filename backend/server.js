@@ -9,6 +9,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 const cors = require("cors");
 var session = require("express-session");
+const connectionString =  "postgres://admin:pass@host/db_name";
 app.use(
   session({
     secret: "keyboard cat",
@@ -37,7 +38,7 @@ app.post("/logout", async (req, res) => {
 app.post("/login", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -69,7 +70,7 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -89,7 +90,7 @@ app.post("/register", async (req, res) => {
 app.get("/getTests", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -107,7 +108,7 @@ app.get("/getTests", async (req, res) => {
 app.get("/getQuestions", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -132,7 +133,7 @@ app.get("/getQuestions", async (req, res) => {
 app.get("/getGroups", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -165,7 +166,7 @@ GROUP BY
 app.post("/startedTest", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -184,7 +185,7 @@ app.post("/startedTest", async (req, res) => {
 app.post("/addPoints", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -208,7 +209,7 @@ app.post("/addPoints", async (req, res) => {
 app.get("/getTestsForStudent", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -229,7 +230,7 @@ app.get("/getTestsForStudent", async (req, res) => {
 app.post("/makeGroup", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -249,7 +250,7 @@ app.post("/makeGroup", async (req, res) => {
 app.post("/makeTest", async (req, res) => {
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -277,7 +278,7 @@ app.post("/addQuestions", async (req, res) => {
   console.log(req.session.username, req.session.userRole);
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -313,7 +314,7 @@ query=query.slice(0,-1)+`)  ORDER BY random()
   console.log("qurei", query);
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
@@ -332,7 +333,7 @@ app.post("/getRezults", async (req, res) => {
   var query = `SELECT * FROM results WHERE username = $1;`;
   const client = new Client({
     connectionString:
-      "postgres://nbobic1:zgRI3cjOTKi8@ep-spring-recipe-95572208.eu-central-1.aws.neon.tech/neondb",
+     connectionString,
     ssl: { rejectUnauthorized: false },
   });
   await client.connect();
