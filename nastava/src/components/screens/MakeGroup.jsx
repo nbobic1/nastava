@@ -21,7 +21,7 @@ const MakeGroup = ({}) => {
     if (!open) {
       var username = localStorage.getItem("username");
       axios
-        .get(`https://54.198.79.143/getGroups`, {
+        .get(`https://98.85.179.68/getGroups`, {
           params: { username: username },
         })
         .then((response) => {
@@ -39,7 +39,7 @@ const MakeGroup = ({}) => {
     console.log("ovdje mi ispisuje: " + nazivGrupe);
     axios
       .post(
-        "https://54.198.79.143/makeGroup",
+        "https://98.85.179.68/makeGroup",
         { groupname: nazivGrupe, username: localStorage.getItem("username") },
         {
           withCredentials: true,

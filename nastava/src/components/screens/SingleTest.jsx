@@ -35,7 +35,7 @@ const SingleTest = ({}) => {
       arr.push(
         new Promise((resolve, reject) => {
           axios
-            .post(`https://54.198.79.143/getQuestion`, {
+            .post(`https://98.85.179.68/getQuestion`, {
               id: i.id,
               num: i.numq,
             })
@@ -52,7 +52,7 @@ const SingleTest = ({}) => {
     if (pitanja.length > 0 && currentQuestionIndex === pitanja.length)
       axios
         .post(
-          "https://54.198.79.143/addPoints",
+          "https://98.85.179.68/addPoints",
           {
             username: localStorage.getItem("username"),
             idtesta: item.id,

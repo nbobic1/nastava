@@ -26,7 +26,7 @@ const Login = ({}) => {
     setIsWrong(false);
     setOpen(true);
     axios
-      .post("https://54.198.79.143/login", form.getValues(), {
+      .post("https://98.85.179.68/login", form.getValues(), {
         withCredentials: true,
         headers: {
           "Access-Control-Allow-Origin": "*",

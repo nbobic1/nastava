@@ -43,7 +43,7 @@ const Register = ({}) => {
     setOpen(true);
     axios
       .post(
-        "https://54.198.79.143/register",
+        "https://98.85.179.68/register",
         { ...form.getValues(), userRole: role },
         {
           withCredentials: true,

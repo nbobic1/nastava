@@ -19,7 +19,7 @@ const Results = ({}) => {
   const [tests, setTests] = useState([]);
   useEffect(() => {
     axios
-      .post(`https://54.198.79.143/getRezults`, {
+      .post(`https://98.85.179.68/getRezults`, {
         username: localStorage.getItem("username"),
       })
       .then((response) => {

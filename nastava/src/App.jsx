@@ -71,7 +71,7 @@ function App() {
                     localStorage.setItem("isLogedin", "false");
                     axios
                       .post(
-                        "https://54.198.79.143/logout",
+                        "https://98.85.179.68/logout",
                         {},
                         {
                           withCredentials: true,

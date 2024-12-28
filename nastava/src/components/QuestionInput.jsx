@@ -27,7 +27,7 @@ const QuestionInput = ({ setOpen, type = 0, item }) => {
 
     axios
       .post(
-        "https://54.198.79.143/addQuestions",
+        "https://98.85.179.68/addQuestions",
         {
           group_id: item.id,
           points: data.points,

@@ -21,7 +21,7 @@ const StudentScreen = ({}) => {
   const getInTest = (id, item) => {
     axios
       .post(
-        "https://54.198.79.143/startedTest",
+        "https://98.85.179.68/startedTest",
         {
           username: localStorage.getItem("username"),
           startedTest: 1,
@@ -50,7 +50,7 @@ const StudentScreen = ({}) => {
   const [tests, setTests] = useState([]);
   useEffect(() => {
     axios
-      .get(`https://54.198.79.143/getTestsForStudent`)
+      .get(`https://98.85.179.68/getTestsForStudent`)
       .then((response) => {
         setTests(response.data);
       })

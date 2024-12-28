@@ -53,7 +53,7 @@ const MakeTest = ({}) => {
     setOpen(true);
     axios
       .post(
-        "https://54.198.79.143/makeTest",
+        "https://98.85.179.68/makeTest",
         {
           username: localStorage.getItem("username"),
           answers: JSON.stringify(sliderChange),
@@ -82,7 +82,7 @@ const MakeTest = ({}) => {
     if (!open) {
       var username = localStorage.getItem("username");
       axios
-        .get(`https://54.198.79.143/getGroups`, {
+        .get(`https://98.85.179.68/getGroups`, {
           params: { username: username },
         })
         .then((response) => {
