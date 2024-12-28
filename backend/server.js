@@ -9,7 +9,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 const cors = require("cors");
 var session = require("express-session");
-const connectionString =  "postgres://admin:pass@host/db_name";
+const env = require('dotenv').config()
+const connectionString = env.parsed.db;
 app.use(
   session({
     secret: "keyboard cat",
