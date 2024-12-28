@@ -12,7 +12,7 @@ const port = 80;
 const { Client } = require("pg");
 
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   const client = new Client({
     connectionString:
      "",
