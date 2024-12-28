@@ -142,13 +142,9 @@ app.get("/getGroups", async (req, res) => {
     const odgovor = await client.query(
       `SELECT
     t1.*,
-    COUNT(t2.id) AS numQ
+    (select count(*) from questions as q where q.group_id = t1.id) AS numQ
 FROM
     grouptable t1
-LEFT JOIN
-    questions t2
-ON
-    t1.id = t2.group_id
     WHERE t1.username=$1; 
     `,
       [req.query.username]
