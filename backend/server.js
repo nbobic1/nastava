@@ -149,9 +149,7 @@ LEFT JOIN
     questions t2
 ON
     t1.id = t2.group_id
-    WHERE t1.username=$1
-GROUP BY
-    t2.group_id; 
+    WHERE t1.username=$1; 
     `,
       [req.query.username]
     );
