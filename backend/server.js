@@ -9,7 +9,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 const cors = require("cors");
 var session = require("express-session");
-const connectionString =  "postgres://admin:pass@host/db_name";
+const env = require('dotenv').config()
+const connectionString = env.parsed.db;
 app.use(
   session({
     secret: "keyboard cat",
@@ -141,16 +142,10 @@ app.get("/getGroups", async (req, res) => {
     const odgovor = await client.query(
       `SELECT
     t1.*,
-    COUNT(t2.id) AS numQ
+    (select count(*) from questions as q where q.group_id = t1.id) AS numQ
 FROM
     grouptable t1
-LEFT JOIN
-    questions t2
-ON
-    t1.id = t2.group_id
-    WHERE t1.username=$1
-GROUP BY
-    t1.id; 
+    WHERE t1.username=$1; 
     `,
       [req.query.username]
     );
